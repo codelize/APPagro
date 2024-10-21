@@ -97,11 +97,12 @@ export default function Home() {
 
   // Controla o índice da página ao arrastar o carrossel
   const handleScroll = (event) => {
-    const newIndex = Math.floor(event.nativeEvent.contentOffset.x / (width * 0.9));
-    setCurrentIndex(newIndex);
+    const contentOffsetX = event.nativeEvent.contentOffset.x; 
+    const newIndex = Math.round(contentOffsetX / (width * 0.9)); // Calcula a página atual com base no conteúdo deslocado
+    setCurrentIndex(newIndex); // Atualiza o índice da página atual
   };
-
-  // Renderização do indicador de página
+  
+  // Função que renderiza os indicadores de página
   const renderIndicators = () => {
     const totalDots = Math.ceil(carouselItems.length / 3); // 3 itens por página
     return (
@@ -111,7 +112,7 @@ export default function Home() {
             key={index}
             style={[
               styles.indicatorDot,
-              currentIndex === index ? styles.activeDot : styles.inactiveDot,
+              currentIndex === index ? styles.activeDot : styles.inactiveDot, // Se currentIndex for igual ao índice, será ativo
             ]}
           />
         ))}
@@ -203,18 +204,18 @@ export default function Home() {
         <View style={styles.carouselCardContainer}>
           <Text style={styles.carouselHeader}>Especialistas Favoristos</Text>
           <FlatList
-            data={carouselItems}
-            renderItem={renderCarouselItem}
-            keyExtractor={(item) => item.id}
-            horizontal
-            pagingEnabled
-            onScroll={handleScroll}
-            snapToAlignment="center"
-            decelerationRate="fast"
-            snapToInterval={width * 0.9}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.carouselList}
-          />
+          data={carouselItems}
+          renderItem={renderCarouselItem}
+          keyExtractor={(item) => item.id}
+          horizontal
+          pagingEnabled
+          onScroll={handleScroll} // Detecta a rolagem e chama handleScroll
+          snapToAlignment="center"
+          decelerationRate="fast"
+          snapToInterval={width * 0.9} // Garante que a rolagem do carrossel seja feita de 3 em 3
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.carouselList}
+        />
           {renderIndicators()}
         </View>
       </ScrollView>
@@ -261,7 +262,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     position: 'absolute', // Mantém a posição relativa ao card
-    top: 30, // Ajusta para a parte superior
+    top: 25, // Ajusta para a parte superior
     right: 20,// Ajusta a posição vertical para ficar no topo do último especialista
   },
   indicatorDot: {
@@ -307,7 +308,7 @@ const styles = StyleSheet.create({
   carouselCardContainer: {
     backgroundColor: '#333',
     borderRadius: 12,
-    padding: 20,
+    padding: 10,
     left: '-02.4%',
     width: '105%', // Ajuste para a largura total da tela
     marginBottom: 20,
