@@ -121,7 +121,7 @@ export default function CadastroScreen({ navigation }) {
               }}
             />
             <TouchableOpacity onPress={() => setMostrarConfirmarSenha(!mostrarConfirmarSenha)} style={styles.showPasswordButton}>
-              <Ionicons name={mostrarConfirmarSenha ? 'eye-outline' : 'eye-off-outline'} size={24} color="#68D391" />
+              <Ionicons name={mostrarConfirmarSenha ? 'eye-outline' : 'eye-off-outline'} size={20} color="#68D391" />
             </TouchableOpacity>
           </View>
           {errors.confirmarSenha ? <Text style={styles.errorText}>{errors.confirmarSenha}</Text> : null}

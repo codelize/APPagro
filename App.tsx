@@ -10,6 +10,10 @@ import Home from './app/screens/Home'; // Tela Home após autenticação
 import LoginScreen from './app/screens/Login'; // Tela de Login
 import CadastroScreen from './app/screens/CadastroScreen'; // Tela de Cadastro
 
+import AvisosScreen from './app/screens/AvisosScreen'; // Tela de Avisos
+import ConsultasScreen from './app/screens/ConsultasScreen'; // Tela de Consultas
+import VidasScreen from './app/screens/VidasScreen'; // Tela de Vidas
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -51,40 +55,16 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Loading">
-        {/* Tela de Loading */}
-        <Stack.Screen
-          name="Loading"
-          component={LoadingScreen}
-          options={{ headerShown: false }}
-        />
-
-        {/* Tela HomeScreen após Loading */}
-        <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
-          options={{ headerShown: false }} // Tela onde o usuário acessa Login e Cadastro
-        />
-
-        {/* Tela de Login */}
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-
-        {/* Tela de Cadastro */}
-        <Stack.Screen
-          name="Cadastro"
-          component={CadastroScreen}
-          options={{ headerShown: false }}
-        />
-
-        {/* Tela com Navegação por Abas após o login */}
-        <Stack.Screen
-          name="Home"
-          component={MainTabs}
-          options={{ headerShown: false }} // Exibe as abas após o login
-        />
+        <Stack.Screen name="Loading" component={LoadingScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Cadastro" component={CadastroScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Home" component={MainTabs} options={{ headerShown: false }} />
+        
+        {/* Adicionando as novas telas */}
+        <Stack.Screen name="Avisos" component={AvisosScreen} />
+        <Stack.Screen name="Consultas" component={ConsultasScreen} />
+        <Stack.Screen name="Vidas" component={VidasScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

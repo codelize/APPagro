@@ -1,17 +1,56 @@
-import React, { useState } from 'react';
-import { ActivityIndicator, SafeAreaView, ScrollView, Alert, TouchableOpacity, Text, View, ImageBackground, StyleSheet, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ActivityIndicator, SafeAreaView, ScrollView, Alert, TouchableOpacity, Text, View, ImageBackground, StyleSheet, Image, FlatList, Dimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import * as Location from 'expo-location';
+
+const { width } = Dimensions.get('window'); // Largura da tela para o carrossel
 
 export default function Home() {
   const navigation = useNavigation();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [location, setLocation] = useState('Rio Verde, Goiás'); // Localização inicial fixa
+  const [loadingLocation, setLoadingLocation] = useState(false); // Carregando a localização
+  const [currentIndex, setCurrentIndex] = useState(0); // Para controlar o índice atual do carrossel
+
+  // Função para obter permissões e localização
+  const getLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permissão negada', 'A permissão para acessar a localização foi negada.');
+      return;
+    }
+
+    setLoadingLocation(true);
+    let { coords } = await Location.getCurrentPositionAsync({});
+    const { latitude, longitude } = coords;
+
+    // Requisição à API Nominatim para converter em cidade/estado
+    fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
+      .then((response) => response.json())
+      .then((data) => {
+        const city = data.address.city || data.address.town || data.address.village;
+        const state = data.address.state;
+        const country = data.address.country;
+        setLocation(`${city}, ${state}, ${country}`);
+        setLoadingLocation(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoadingLocation(false);
+        Alert.alert('Erro ao converter localização', 'Não foi possível converter sua localização.');
+      });
+  };
+
+  useEffect(() => {
+    getLocation();
+  }, []);
 
   const handleLogout = async () => {
-    setIsLoggingOut(true);  // Mostra o loading
+    setIsLoggingOut(true);
     await AsyncStorage.removeItem('userData');
-    setIsLoggingOut(false); // Oculta o loading
+    setIsLoggingOut(false);
     navigation.navigate('Login');
   };
 
@@ -20,33 +59,69 @@ export default function Home() {
       'Tem certeza de que deseja sair da sua conta?',
       '',
       [
-        {
-          text: 'Cancelar',
-          style: 'cancel',
-        },
-        {
-          text: 'Sair',
-          onPress: handleLogout,
-          style: 'destructive',
-        },
+        { text: 'Cancelar', style: 'cancel' },
+        { text: 'Sair', onPress: handleLogout, style: 'destructive' },
       ],
       { cancelable: true }
     );
   };
 
-  const navigateToAnimals = () => {
-    navigation.navigate('AnimalsScreen'); // Deve ser implementado no futuro
+  // Função para navegação para as novas telas
+  const navigateToAvisos = () => {
+    navigation.navigate('Avisos');
+  };
+  const navigateToConsultas = () => {
+    navigation.navigate('Consultas');
+  };
+  const navigateToVidas = () => {
+    navigation.navigate('Vidas');
   };
 
-  const navigateToConsultas = () => {
-    navigation.navigate('ConsultasScreen'); // Deve ser implementado no futuro
+  // Dados para o carrossel
+  const carouselItems = [
+    { id: '1', title: 'Especialista 1', image: require('../../assets/avatar1.png') },
+    { id: '2', title: 'Especialista 2', image: require('../../assets/avatar2.png') },
+    { id: '3', title: 'Especialista 3', image: require('../../assets/avatar3.png') },
+    { id: '4', title: 'Especialista 4', image: require('../../assets/avatar4.png') },
+    { id: '5', title: 'Especialista 5', image: require('../../assets/avatar5.png') },
+    { id: '6', title: 'Especialista 6', image: require('../../assets/avatar6.png') },
+  ];
+
+  // Renderização do item do carrossel
+  const renderCarouselItem = ({ item }) => (
+    <View style={styles.carouselItem}>
+      <Image source={item.image} style={styles.carouselImage} />
+      <Text style={styles.carouselTitle}>{item.title}</Text>
+    </View>
+  );
+
+  // Controla o índice da página ao arrastar o carrossel
+  const handleScroll = (event) => {
+    const newIndex = Math.floor(event.nativeEvent.contentOffset.x / (width * 0.9));
+    setCurrentIndex(newIndex);
+  };
+
+  // Renderização do indicador de página
+  const renderIndicators = () => {
+    const totalDots = Math.ceil(carouselItems.length / 3); // 3 itens por página
+    return (
+      <View style={styles.indicatorContainer}>
+        {Array.from({ length: totalDots }).map((_, index) => (
+          <View
+            key={index}
+            style={[
+              styles.indicatorDot,
+              currentIndex === index ? styles.activeDot : styles.inactiveDot,
+            ]}
+          />
+        ))}
+      </View>
+    );
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Imagem Elli como background */}
       <Image source={require('../../assets/Elli.png')} style={styles.elliBackground} />
-
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.header}>
           <Image source={require('../../assets/LogoAgroCare.png')} style={styles.logo} />
@@ -59,17 +134,14 @@ export default function Home() {
           </TouchableOpacity>
         </View>
 
-        {/* Contêiner com cartões e avatar */}
         <View style={styles.statsContainer}>
-          {/* Cartão Animais */}
-          <TouchableOpacity style={[styles.statCard, styles.leftCard]} onPress={navigateToAnimals}>
+          <TouchableOpacity style={[styles.statCard, styles.leftCard]} onPress={navigateToConsultas}>
             <View style={styles.statContainer}>
               <Text style={styles.statNumber}>3.127</Text>
               <Text style={styles.statLabel}>Animais</Text>
             </View>
           </TouchableOpacity>
 
-          {/* Avatar sobreposto */}
           <View style={styles.avatarContainer}>
             <Image
               source={{ uri: 'https://loodibee.com/wp-content/uploads/Netflix-avatar-11.png' }}
@@ -77,7 +149,6 @@ export default function Home() {
             />
           </View>
 
-          {/* Cartão Consultas */}
           <TouchableOpacity style={[styles.statCard, styles.rightCard]} onPress={navigateToConsultas}>
             <View style={styles.statContainer}>
               <Text style={styles.statNumber}>81</Text>
@@ -86,40 +157,36 @@ export default function Home() {
           </TouchableOpacity>
         </View>
 
-        {/* Nome e Localização */}
         <View style={styles.userInfoContainer}>
           <Text style={styles.userName}>Olá, Firmino Armstrong</Text>
-          <Text style={styles.userLocation}>Rio Verde, Goiás</Text>
+          <Text style={styles.userLocation}>
+            {loadingLocation ? 'Obtendo localização...' : location}
+          </Text>
         </View>
 
-        {/* Dashboard Grid Cards - Dois menores à esquerda, um maior à direita */}
+        {/* Dashboard Grid Cards */}
         <View style={styles.dashboardContainer}>
           <View style={styles.leftColumn}>
-            <View style={[styles.dashboardCard, styles.smallCard]}>
-              <Ionicons name="alert-circle" size={40} color="#68D391" />
+            <TouchableOpacity style={[styles.dashboardCard, styles.smallCard, styles.transparentCard]} onPress={navigateToAvisos}>
+              <Ionicons name="notifications-outline" size={24} color="#68D391" style={styles.iconTopRight} />
               <Text style={styles.cardNumber}>21</Text>
               <Text style={styles.cardLabel}>Avisos</Text>
-            </View>
-            <View style={[styles.dashboardCard, styles.smallCard]}>
-              <Ionicons name="clipboard" size={40} color="#68D391" />
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.dashboardCard, styles.smallCard, styles.transparentCard]} onPress={navigateToConsultas}>
+              <Ionicons name="information-circle-outline" size={24} color="#68D391" style={styles.iconTopRight} />
               <Text style={styles.cardNumber}>81</Text>
               <Text style={styles.cardLabel}>Consultas</Text>
-            </View>
+            </TouchableOpacity>
           </View>
 
-          {/* Card maior com imagem de fundo */}
-          <ImageBackground 
-            source={require('../../assets/core.png')} 
-            style={[styles.dashboardCard, styles.largeCard]} 
-            imageStyle={styles.coreImageBackground} // Aplicar o estilo à imagem de fundo
-          >
-            <Ionicons name="heart" size={40} color="#68D391" />
+          <TouchableOpacity style={[styles.dashboardCard, styles.largeCard, styles.transparentCard]} onPress={navigateToVidas}>
+            <Ionicons name="heart-outline" size={24} color="#68D391" style={styles.iconTopRight} />
             <Text style={styles.cardNumber}>3.127</Text>
             <Text style={styles.cardLabel}>Vidas</Text>
-          </ImageBackground>
+          </TouchableOpacity>
         </View>
 
-        {/* Alertas Recentes */}
+        {/* Avisos Recentes */}
         <View style={styles.alertsContainer}>
           <Text style={styles.sectionTitle}>Alertas Recentes</Text>
           <View style={styles.alertItem}>
@@ -130,6 +197,25 @@ export default function Home() {
             <Ionicons name="alert-circle" size={20} color="#FFB74D" />
             <Text style={styles.alertText}>Estoque de vacinas abaixo do esperado.</Text>
           </View>
+        </View>
+
+        {/* Carrossel dentro de um card */}
+        <View style={styles.carouselCardContainer}>
+          <Text style={styles.carouselHeader}>Especialistas Favoristos</Text>
+          <FlatList
+            data={carouselItems}
+            renderItem={renderCarouselItem}
+            keyExtractor={(item) => item.id}
+            horizontal
+            pagingEnabled
+            onScroll={handleScroll}
+            snapToAlignment="center"
+            decelerationRate="fast"
+            snapToInterval={width * 0.9}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.carouselList}
+          />
+          {renderIndicators()}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -165,6 +251,74 @@ const styles = StyleSheet.create({
     height: 1600,
     resizeMode: 'cover',
     zIndex: 0,
+  },
+  menuButton: {
+    backgroundColor: 'transparent',
+    padding: 8,
+    borderRadius: 12,
+  },
+  indicatorContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    position: 'absolute', // Mantém a posição relativa ao card
+    top: 30, // Ajusta para a parte superior
+    right: 20,// Ajusta a posição vertical para ficar no topo do último especialista
+  },
+  indicatorDot: {
+    width: 10, // Altera para o formato achatado
+    height: 6,
+    borderRadius: 10,
+    marginHorizontal: 4,
+  },
+  activeDot: {
+    backgroundColor: '#68D391',
+  },
+  inactiveDot: {
+    backgroundColor: '#A8A8A8',
+  },
+  carouselList: {
+    paddingHorizontal: 10,
+  },
+  carouselItem: {
+    width: (width * 0.9) / 3 - 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#282828',
+    borderRadius: 12,
+    padding: 15,
+    marginHorizontal: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 3,
+  },
+  carouselImage: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    marginBottom: 8,
+  },
+  carouselTitle: {
+    color: '#EAEAEA',
+    fontSize: 14,
+    textAlign: 'center',
+  },
+  carouselCardContainer: {
+    backgroundColor: '#333',
+    borderRadius: 12,
+    padding: 20,
+    left: '-02.4%',
+    width: '105%', // Ajuste para a largura total da tela
+    marginBottom: 20,
+    position: 'relative', // Permite que o indicador seja posicionado dentro do card
+  },
+  carouselHeader: {
+    color: '#EAEAEA',
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 10,
+    marginLeft: 100,
   },
   statsContainer: {
     flexDirection: 'row',
@@ -252,7 +406,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   dashboardCard: {
-    backgroundColor: '#333',
     borderRadius: 12,
     padding: 20,
     justifyContent: 'center',
@@ -260,6 +413,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 0.1,
     zIndex: 1,
     width: '100%',
+    position: 'relative',
   },
   smallCard: {
     flex: 1,
@@ -272,6 +426,9 @@ const styles = StyleSheet.create({
     zIndex: 1,
     marginLeft: 10,
     height: 310,
+  },
+  transparentCard: {
+    backgroundColor: 'rgba(51, 51, 51, 0.7)',
   },
   cardNumber: {
     color: '#68D391',
@@ -294,11 +451,13 @@ const styles = StyleSheet.create({
     left: '30%',
   },
   alertsContainer: {
-    marginBottom: 20,
+    marginBottom: 10,
     padding: 15,
+    left: '-02.4%',
     backgroundColor: '#333',
     borderRadius: 10,
     zIndex: 1,
+    width: '105%', // Ajuste para a largura total da tela
   },
   sectionTitle: {
     color: '#EAEAEA',
@@ -313,10 +472,5 @@ const styles = StyleSheet.create({
   alertText: {
     color: '#EAEAEA',
     marginLeft: 10,
-  },
-  menuButton: {
-    backgroundColor: 'transparent',
-    padding: 8,
-    borderRadius: 12,
   },
 });
