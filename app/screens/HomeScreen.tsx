@@ -102,4 +102,4 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '-2deg' }],
     zIndex: 1,
   },
-});
+}); 

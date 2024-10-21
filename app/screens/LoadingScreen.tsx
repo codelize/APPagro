@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#103F19',
+    backgroundColor: '#1A1A1A', // Fundo escuro para consistência com a aplicação
   },
   loadingImageContainer: {
     flex: 1,
@@ -48,12 +48,12 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   circleImg: {
-    width: '110%',
-    height: '110%',
+    width: '200%',
+    height: '130%',
     position: 'absolute',
-    top: 10,
-    left: -210,
-    opacity: 0.5,
+    top: 200,
+    opacity: 0.25, // Opacidade ajustada para suavizar o efeito de fundo
     zIndex: 0,
+    tintColor: '#68D391', // Mantido o verde claro para o círculo
   },
 });

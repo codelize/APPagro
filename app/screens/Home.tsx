@@ -1,59 +1,95 @@
-import React from 'react';
-import { Image, SafeAreaView, Text, TouchableOpacity, StyleSheet, ScrollView, View } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons'; 
+import React, { useState } from 'react';
+import { ActivityIndicator, SafeAreaView, ScrollView, Alert, TouchableOpacity, Text, View, Image, StyleSheet } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Home() {
   const navigation = useNavigation();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = async () => {
+    setIsLoggingOut(true);  // Mostra o loading
     await AsyncStorage.removeItem('userData');
+    setIsLoggingOut(false); // Oculta o loading
     navigation.navigate('Login');
+  };
+
+  const confirmLogout = () => {
+    Alert.alert(
+      'Tem certeza de que deseja sair da sua conta?',
+      '',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        {
+          text: 'Sair',
+          onPress: handleLogout,
+          style: 'destructive',
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
+  const navigateToAnimals = () => {
+    navigation.navigate('AnimalsScreen'); // Deve ser implementado no futuro
+  };
+
+  const navigateToConsultas = () => {
+    navigation.navigate('ConsultasScreen'); // Deve ser implementado no futuro
   };
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* Imagem Elli como background */}
+      <Image source={require('../../assets/Elli.png')} style={styles.elliBackground} />
+
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {/* Header com Logout e Logo */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={handleLogout} style={styles.menuButton}>
-            <Ionicons name="menu" size={24} color="#fff" />
-          </TouchableOpacity>
           <Image source={require('../../assets/LogoAgroCare.png')} style={styles.logo} />
+          <TouchableOpacity onPress={confirmLogout} style={styles.menuButton}>
+            {isLoggingOut ? (
+              <ActivityIndicator size="small" color="#fff" />
+            ) : (
+              <Ionicons name="log-out-outline" size={24} color="#fff" />
+            )}
+          </TouchableOpacity>
         </View>
 
-        {/* Perfil e Boas-vindas */}
-        <View style={styles.profileContainer}>
-          <Image
-            source={{ uri: 'https://avatar.iran.liara.run/public/job/farmer/male' }}
-            style={styles.avatar}
-          />
+        {/* Contêiner com cartões e avatar */}
+        <View style={styles.statsContainer}>
+          {/* Cartão Animais */}
+          <TouchableOpacity style={[styles.statCard, styles.leftCard]} onPress={navigateToAnimals}>
+            <View style={styles.statContainer}>
+              <Text style={styles.statNumber}>3.127</Text>
+              <Text style={styles.statLabel}>Animais</Text>
+            </View>
+          </TouchableOpacity>
+
+          {/* Avatar sobreposto */}
+          <View style={styles.avatarContainer}>
+            <Image
+              source={{ uri: 'https://loodibee.com/wp-content/uploads/Netflix-avatar-11.png' }}
+              style={styles.avatar}
+            />
+          </View>
+
+          {/* Cartão Consultas */}
+          <TouchableOpacity style={[styles.statCard, styles.rightCard]} onPress={navigateToConsultas}>
+            <View style={styles.statContainer}>
+              <Text style={styles.statNumber}>81</Text>
+              <Text style={styles.statLabel}>Consultas</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        {/* Nome e Localização */}
+        <View style={styles.userInfoContainer}>
           <Text style={styles.userName}>Olá, Firmino Armstrong</Text>
           <Text style={styles.userLocation}>Rio Verde, Goiás</Text>
-        </View>
-
-        {/* Cartões de Informações */}
-        <View style={styles.cardsContainer}>
-          <TouchableOpacity style={styles.card}>
-            <Text style={styles.cardNumber}>3.127</Text>
-            <Text style={styles.cardLabel}>Animais</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.card}>
-            <Text style={styles.cardNumber}>81</Text>
-            <Text style={styles.cardLabel}>Consultas</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.cardsContainer}>
-          <TouchableOpacity style={styles.card}>
-            <Text style={styles.cardNumber}>21</Text>
-            <Text style={styles.cardLabel}>Saúde</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.card}>
-            <Text style={styles.cardNumber}>3.127</Text>
-            <Text style={styles.cardLabel}>Vidas</Text>
-          </TouchableOpacity>
         </View>
 
         {/* Alertas Recentes */}
@@ -94,53 +130,80 @@ const styles = StyleSheet.create({
     height: 35,
     resizeMode: 'contain',
   },
-  profileContainer: {
+  elliBackground: {
+    position: 'absolute',
+    top: 30,
+    left: 0,
+    width: '100%',
+    height: 1600,
+    resizeMode: 'cover',
+    zIndex: 0,
+  },
+  statsContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
-    padding: 15,
+    justifyContent: 'space-between',
     backgroundColor: '#333',
     borderRadius: 12,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    marginVertical: 20,
+    width: '90%',
+    alignSelf: 'center',  // Centraliza o container na tela
+    position: 'relative',
+  },
+  avatarContainer: {
+    position: 'absolute',
+    top: -5,  // Ajuste para puxar o avatar para cima
+    left: '37%', // Ajuste de posicionamento do avatar
+    zIndex: 1,
   },
   avatar: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    marginBottom: 10,
-    borderColor: '#555',
-    borderWidth: 2,
+    width: 100,  // Ajustando o tamanho da imagem
+    height: 100,
+    borderRadius: 50,  // Mantendo o formato circular
+    borderColor: '#68D391',
+    borderWidth: 3,  // Borda visível
+  },
+  statCard: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 5,  // Ajuste do espaçamento entre os cartões
+  },
+  leftCard: {
+    alignItems: 'flex-start',  // Puxa "Animais" mais para a esquerda
+    marginLeft: 20,  // Ajuste para posicionar o card mais à esquerda
+  },
+  rightCard: {
+    alignItems: 'flex-end',  // Puxa "Consultas" mais para a direita
+    marginRight: 20,  // Ajuste para posicionar o card mais à direita
+  },
+  statContainer: {
+    alignItems: 'center',
+  },
+  statNumber: {
+    color: '#EAEAEA',
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  statLabel: {
+    color: '#A8A8A8',
+    fontSize: 14,
+    marginTop: 5,
+  },
+  userInfoContainer: {
+    alignItems: 'center',
   },
   userName: {
     color: '#EAEAEA',
     fontSize: 20,
     fontWeight: '600',
+    marginBottom: 5,
   },
   userLocation: {
     color: '#A8A8A8',
     fontSize: 14,
-    marginTop: 3,
-  },
-  cardsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 15,
-  },
-  card: {
-    flex: 1,
-    backgroundColor: '#333',
-    borderRadius: 10,
-    padding: 15,
-    alignItems: 'center',
-    marginHorizontal: 8,
-  },
-  cardNumber: {
-    color: '#EAEAEA',
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  cardLabel: {
-    color: '#A8A8A8',
-    fontSize: 14,
-    marginTop: 5,
   },
   alertsContainer: {
     marginBottom: 20,
@@ -161,5 +224,10 @@ const styles = StyleSheet.create({
   alertText: {
     color: '#EAEAEA',
     marginLeft: 10,
+  },
+  menuButton: {
+    backgroundColor: 'transparent',
+    padding: 8,
+    borderRadius: 12,
   },
 });
