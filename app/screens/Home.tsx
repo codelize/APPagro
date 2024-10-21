@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, SafeAreaView, ScrollView, Alert, TouchableOpacity, Text, View, Image, StyleSheet } from 'react-native';
+import { ActivityIndicator, SafeAreaView, ScrollView, Alert, TouchableOpacity, Text, View, ImageBackground, StyleSheet, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -92,6 +92,33 @@ export default function Home() {
           <Text style={styles.userLocation}>Rio Verde, Goiás</Text>
         </View>
 
+        {/* Dashboard Grid Cards - Dois menores à esquerda, um maior à direita */}
+        <View style={styles.dashboardContainer}>
+          <View style={styles.leftColumn}>
+            <View style={[styles.dashboardCard, styles.smallCard]}>
+              <Ionicons name="alert-circle" size={40} color="#68D391" />
+              <Text style={styles.cardNumber}>21</Text>
+              <Text style={styles.cardLabel}>Avisos</Text>
+            </View>
+            <View style={[styles.dashboardCard, styles.smallCard]}>
+              <Ionicons name="clipboard" size={40} color="#68D391" />
+              <Text style={styles.cardNumber}>81</Text>
+              <Text style={styles.cardLabel}>Consultas</Text>
+            </View>
+          </View>
+
+          {/* Card maior com imagem de fundo */}
+          <ImageBackground 
+            source={require('../../assets/core.png')} 
+            style={[styles.dashboardCard, styles.largeCard]} 
+            imageStyle={styles.coreImageBackground} // Aplicar o estilo à imagem de fundo
+          >
+            <Ionicons name="heart" size={40} color="#68D391" />
+            <Text style={styles.cardNumber}>3.127</Text>
+            <Text style={styles.cardLabel}>Vidas</Text>
+          </ImageBackground>
+        </View>
+
         {/* Alertas Recentes */}
         <View style={styles.alertsContainer}>
           <Text style={styles.sectionTitle}>Alertas Recentes</Text>
@@ -149,35 +176,40 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginVertical: 20,
     width: '90%',
-    alignSelf: 'center',  // Centraliza o container na tela
+    alignSelf: 'center',
     position: 'relative',
+    zIndex: 1,
   },
   avatarContainer: {
     position: 'absolute',
-    top: -5,  // Ajuste para puxar o avatar para cima
-    left: '37%', // Ajuste de posicionamento do avatar
+    top: -5,
+    left: '37%',
     zIndex: 1,
   },
   avatar: {
-    width: 100,  // Ajustando o tamanho da imagem
+    width: 100,
     height: 100,
-    borderRadius: 50,  // Mantendo o formato circular
+    borderRadius: 50,
     borderColor: '#68D391',
-    borderWidth: 3,  // Borda visível
+    borderWidth: 3,
+    zIndex: 1,
   },
   statCard: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 5,  // Ajuste do espaçamento entre os cartões
+    marginHorizontal: 5,
+    zIndex: 1,
   },
   leftCard: {
-    alignItems: 'flex-start',  // Puxa "Animais" mais para a esquerda
-    marginLeft: 20,  // Ajuste para posicionar o card mais à esquerda
+    alignItems: 'flex-start',
+    marginLeft: 20,
+    zIndex: 1,
   },
   rightCard: {
-    alignItems: 'flex-end',  // Puxa "Consultas" mais para a direita
-    marginRight: 20,  // Ajuste para posicionar o card mais à direita
+    alignItems: 'flex-end',
+    marginRight: 20,
+    zIndex: 1,
   },
   statContainer: {
     alignItems: 'center',
@@ -194,6 +226,7 @@ const styles = StyleSheet.create({
   },
   userInfoContainer: {
     alignItems: 'center',
+    marginBottom: 10,
   },
   userName: {
     color: '#EAEAEA',
@@ -205,11 +238,67 @@ const styles = StyleSheet.create({
     color: '#A8A8A8',
     fontSize: 14,
   },
+  dashboardContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: -10,
+    marginBottom: 20,
+    zIndex: 1,
+  },
+  leftColumn: {
+    flexDirection: 'column',
+    flex: 1,
+    justifyContent: 'space-between',
+    zIndex: 1,
+  },
+  dashboardCard: {
+    backgroundColor: '#333',
+    borderRadius: 12,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 0.1,
+    zIndex: 1,
+    width: '100%',
+  },
+  smallCard: {
+    flex: 1,
+    zIndex: 1,
+    height: 150,
+    marginBottom: 11,
+  },
+  largeCard: {
+    flex: 1,
+    zIndex: 1,
+    marginLeft: 10,
+    height: 310,
+  },
+  cardNumber: {
+    color: '#68D391',
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  cardLabel: {
+    color: '#A8A8A8',
+    fontSize: 14,
+    marginTop: 5,
+  },
+  coreImageBackground: {
+    width: '50%',
+    height: '70%',
+    resizeMode: 'contain',
+    opacity: 0.8,
+    position: 'absolute',
+    zIndex: -1,
+    top: '30%',
+    left: '30%',
+  },
   alertsContainer: {
     marginBottom: 20,
     padding: 15,
     backgroundColor: '#333',
     borderRadius: 10,
+    zIndex: 1,
   },
   sectionTitle: {
     color: '#EAEAEA',
