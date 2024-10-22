@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, SafeAreaView, ScrollView, Alert, TouchableOpacity, Text, View, ImageBackground, StyleSheet, Image, FlatList, Dimensions } from 'react-native';
+import { ActivityIndicator, SafeAreaView, ScrollView, Alert, TouchableOpacity, Text, View, ImageBackground, StyleSheet, Image, FlatList, Dimensions, Modal, TouchableWithoutFeedback } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -13,6 +13,8 @@ export default function Home() {
   const [location, setLocation] = useState('Rio Verde, Goiás'); // Localização inicial fixa
   const [loadingLocation, setLoadingLocation] = useState(false); // Carregando a localização
   const [currentIndex, setCurrentIndex] = useState(0); // Para controlar o índice atual do carrossel
+  const [isModalVisible, setIsModalVisible] = useState(false); // Controle do modal
+  const [selectedImage, setSelectedImage] = useState(null); // Imagem selecionada para expandir
 
   // Função para obter permissões e localização
   const getLocation = async () => {
@@ -66,9 +68,21 @@ export default function Home() {
     );
   };
 
+  // Função para abrir o modal e expandir a imagem
+  const openModal = (image) => {
+    setSelectedImage(image);
+    setIsModalVisible(true);
+  };
+
+  // Função para fechar o modal
+  const closeModal = () => {
+    setIsModalVisible(false);
+    setSelectedImage(null);
+  };
+
   // Função para navegação para as novas telas
-  const navigateToAvisos = () => {
-    navigation.navigate('Avisos');
+  const navigateToVeterinariosMatch = () => {
+    navigation.navigate('VeterinariosMatch', { screen: 'VeterinariosMatch', headerShown: false });
   };
   const navigateToConsultas = () => {
     navigation.navigate('Consultas');
@@ -97,11 +111,11 @@ export default function Home() {
 
   // Controla o índice da página ao arrastar o carrossel
   const handleScroll = (event) => {
-    const contentOffsetX = event.nativeEvent.contentOffset.x; 
+    const contentOffsetX = event.nativeEvent.contentOffset.x;
     const newIndex = Math.round(contentOffsetX / (width * 0.9)); // Calcula a página atual com base no conteúdo deslocado
     setCurrentIndex(newIndex); // Atualiza o índice da página atual
   };
-  
+
   // Função que renderiza os indicadores de página
   const renderIndicators = () => {
     const totalDots = Math.ceil(carouselItems.length / 3); // 3 itens por página
@@ -143,11 +157,14 @@ export default function Home() {
             </View>
           </TouchableOpacity>
 
+          {/* Avatar com funcionalidade de expansão */}
           <View style={styles.avatarContainer}>
-            <Image
-              source={{ uri: 'https://loodibee.com/wp-content/uploads/Netflix-avatar-11.png' }}
-              style={styles.avatar}
-            />
+            <TouchableOpacity onPress={() => openModal({ uri: 'https://loodibee.com/wp-content/uploads/Netflix-avatar-11.png' })}>
+              <Image
+                source={{ uri: 'https://loodibee.com/wp-content/uploads/Netflix-avatar-11.png' }}
+                style={styles.avatar}
+              />
+            </TouchableOpacity>
           </View>
 
           <TouchableOpacity style={[styles.statCard, styles.rightCard]} onPress={navigateToConsultas}>
@@ -168,20 +185,20 @@ export default function Home() {
         {/* Dashboard Grid Cards */}
         <View style={styles.dashboardContainer}>
           <View style={styles.leftColumn}>
-            <TouchableOpacity style={[styles.dashboardCard, styles.smallCard, styles.transparentCard]} onPress={navigateToAvisos}>
-              <Ionicons name="notifications-outline" size={24} color="#68D391" style={styles.iconTopRight} />
+            <TouchableOpacity style={[styles.dashboardCard, styles.smallCard, styles.transparentCard]} onPress={navigateToVeterinariosMatch}>
+              <Ionicons name="notifications-outline" size={24} color="#68D391" style={styles.iconPosition} />
               <Text style={styles.cardNumber}>21</Text>
-              <Text style={styles.cardLabel}>Avisos</Text>
+              <Text style={styles.cardLabel}>Match</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.dashboardCard, styles.smallCard, styles.transparentCard]} onPress={navigateToConsultas}>
-              <Ionicons name="information-circle-outline" size={24} color="#68D391" style={styles.iconTopRight} />
+              <Ionicons name="information-circle-outline" size={24} color="#68D391" style={styles.iconPosition} />
               <Text style={styles.cardNumber}>81</Text>
               <Text style={styles.cardLabel}>Consultas</Text>
             </TouchableOpacity>
           </View>
 
           <TouchableOpacity style={[styles.dashboardCard, styles.largeCard, styles.transparentCard]} onPress={navigateToVidas}>
-            <Ionicons name="heart-outline" size={24} color="#68D391" style={styles.iconTopRight} />
+            <Ionicons name="heart-outline" size={24} color="#68D391" style={styles.iconPosition} />
             <Text style={styles.cardNumber}>3.127</Text>
             <Text style={styles.cardLabel}>Vidas</Text>
           </TouchableOpacity>
@@ -202,23 +219,34 @@ export default function Home() {
 
         {/* Carrossel dentro de um card */}
         <View style={styles.carouselCardContainer}>
-          <Text style={styles.carouselHeader}>Especialistas Favoristos</Text>
+          <Text style={styles.carouselHeader}>Especialistas Favoritos</Text>
           <FlatList
-          data={carouselItems}
-          renderItem={renderCarouselItem}
-          keyExtractor={(item) => item.id}
-          horizontal
-          pagingEnabled
-          onScroll={handleScroll} // Detecta a rolagem e chama handleScroll
-          snapToAlignment="center"
-          decelerationRate="fast"
-          snapToInterval={width * 0.9} // Garante que a rolagem do carrossel seja feita de 3 em 3
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.carouselList}
-        />
+            data={carouselItems}
+            renderItem={renderCarouselItem}
+            keyExtractor={(item) => item.id}
+            horizontal
+            pagingEnabled
+            onScroll={handleScroll} // Detecta a rolagem e chama handleScroll
+            snapToAlignment="center"
+            decelerationRate="fast"
+            snapToInterval={width * 0.9} // Garante que a rolagem do carrossel seja feita de 3 em 3
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.carouselList}
+          />
           {renderIndicators()}
         </View>
       </ScrollView>
+
+      {/* Modal para expandir a imagem */}
+      <Modal visible={isModalVisible} transparent={true} animationType="fade">
+        <TouchableWithoutFeedback onPress={closeModal}>
+          <View style={styles.modalContainer}>
+            {selectedImage && (
+              <Image source={selectedImage} style={styles.modalImage} />
+            )}
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -441,6 +469,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 5,
   },
+  iconPosition: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
   coreImageBackground: {
     width: '50%',
     height: '70%',
@@ -473,5 +506,17 @@ const styles = StyleSheet.create({
   alertText: {
     color: '#EAEAEA',
     marginLeft: 10,
+  },
+  // Estilos para o modal de expansão de imagem
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalImage: {
+    width: '80%',
+    height: '50%',
+    resizeMode: 'contain',
   },
 });

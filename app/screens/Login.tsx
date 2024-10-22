@@ -30,7 +30,10 @@ export default function LoginScreen() {
 
     try {
       await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
-      navigation.navigate('Home'); // Redirecionar para a tela Home após o login bem-sucedido
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Home' }], // Redireciona para a tela Home
+      });
     } catch (error) {
       console.error('Erro ao fazer login:', error);
       Alert.alert('Erro de login', 'Usuário ou senha incorretos. Tente novamente.');

@@ -9,7 +9,7 @@ import HomeScreen from './app/screens/HomeScreen'; // Tela onde o usuário pode 
 import Home from './app/screens/Home'; // Tela Home após autenticação
 import LoginScreen from './app/screens/Login'; // Tela de Login
 import CadastroScreen from './app/screens/CadastroScreen'; // Tela de Cadastro
-
+import VeterinariosMatch from './app/screens/VeterinariosMatch'; // Nova tela Match para veterinários
 import AvisosScreen from './app/screens/AvisosScreen'; // Tela de Avisos
 import ConsultasScreen from './app/screens/ConsultasScreen'; // Tela de Consultas
 import VidasScreen from './app/screens/VidasScreen'; // Tela de Vidas
@@ -28,8 +28,8 @@ function MainTabs() {
 
           if (route.name === 'Home') {
             iconName = 'home-outline'; // Ícone da tela Home
-          } else if (route.name === 'Atividades') {
-            iconName = 'calendar-outline'; // Ícone de Atividades
+          } else if (route.name === 'Match') {
+            iconName = 'heart-outline'; // Ícone de Match (coração)
           } else if (route.name === 'Menu') {
             iconName = 'menu'; // Ícone de Menu (hambúrguer)
           }
@@ -45,7 +45,7 @@ function MainTabs() {
       })}
     >
       <Tab.Screen name="Home" component={Home} options={{ headerShown: false }} />
-      <Tab.Screen name="Atividades" component={Home} options={{ headerShown: false }} />
+      <Tab.Screen name="Match" component={VeterinariosMatch} options={{ headerShown: false }} />
       <Tab.Screen name="Menu" component={Home} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
@@ -62,9 +62,9 @@ export default function App() {
         <Stack.Screen name="Home" component={MainTabs} options={{ headerShown: false }} />
         
         {/* Adicionando as novas telas */}
-        <Stack.Screen name="Avisos" component={AvisosScreen} />
-        <Stack.Screen name="Consultas" component={ConsultasScreen} />
-        <Stack.Screen name="Vidas" component={VidasScreen} />
+        <Stack.Screen name="Consultas" component={ConsultasScreen} options={{ headerShown: false }}  /> 
+        <Stack.Screen name="Vidas" component={VidasScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="VeterinariosMatch" component={VeterinariosMatch} options={{ headerShown: false }} /> 
       </Stack.Navigator>
     </NavigationContainer>
   );
