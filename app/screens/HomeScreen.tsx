@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A', // Alterado para fundo escuro consistente com o layout geral do aplicativo
+    backgroundColor: '#0C331C', // Alterado para fundo escuro consistente com o layout geral do aplicativo
     paddingBottom: 40,
   },
   smallLogoImg: {
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     height: '130%',
     position: 'absolute',
     top: 200,
-    opacity: 0.25, // Mantendo a opacidade mais baixa para suavizar a imagem de fundo
+    opacity: 2, // Mantendo a opacidade mais baixa para suavizar a imagem de fundo
     zIndex: 0, // Definimos a imagem circle como o fundo
   },
   ellipseImg: {

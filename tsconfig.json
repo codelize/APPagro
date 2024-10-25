@@ -1,6 +1,24 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
-  }
+    "strict": true,  // Mantém as regras de estrita tipagem
+    "target": "esnext",  // Define a versão da linguagem ES que você está utilizando
+    "module": "esnext",  // Utilizado com módulos ES
+    "jsx": "react",  // Indica o uso de JSX para React
+    "lib": ["dom", "esnext"],  // Bibliotecas padrão usadas pelo TypeScript
+    "allowSyntheticDefaultImports": true,  // Permite a importação de módulos padrão mesmo sem exportação padrão
+    "esModuleInterop": true,  // Permite compatibilidade com módulos CommonJS
+    "moduleResolution": "node",  // Resolve os módulos no estilo Node.js
+    "skipLibCheck": true,  // Ignora verificação de tipo em arquivos de declaração
+    "resolveJsonModule": true,  // Permite importar arquivos JSON diretamente
+    "noEmit": true,  // Impede a geração de arquivos `.js` na compilação (útil para projetos Expo)
+    "isolatedModules": true,  // Verifica que cada arquivo é um módulo independente
+    "strictNullChecks": true  // Garante que variáveis com `null` e `undefined` sejam verificadas adequadamente
+  },
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js"
+  ]
 }

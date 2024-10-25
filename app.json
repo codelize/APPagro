@@ -18,9 +18,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "NFC"  // Adiciona a permissão NFC ao Android
+      ]
     },
-    "web": {
+    "web": {  
       "favicon": "./assets/favicon.png"
     }
   }

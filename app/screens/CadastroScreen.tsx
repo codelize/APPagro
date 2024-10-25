@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A', // Fundo escuro consistente
+    backgroundColor: '#0C331C', // Fundo escuro consistente
     paddingBottom: 40,
     paddingHorizontal: 20,
   },

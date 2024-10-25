@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A', // Fundo escuro para consistência com a aplicação
+    backgroundColor: '#0C331C', // Fundo escuro para consistência com a aplicação
   },
   loadingImageContainer: {
     flex: 1,

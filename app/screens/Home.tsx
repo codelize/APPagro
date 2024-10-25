@@ -80,13 +80,15 @@ export default function Home() {
     setSelectedImage(null);
   };
 
-  // Função para navegação para as novas telas
+  // Função para navegação para a aba "Match"
   const navigateToVeterinariosMatch = () => {
-    navigation.navigate('VeterinariosMatch', { screen: 'VeterinariosMatch', headerShown: false });
+    navigation.navigate('Match'); // Navega para a aba "Match" dentro do Tab.Navigator
   };
+
   const navigateToConsultas = () => {
     navigation.navigate('Consultas');
   };
+
   const navigateToVidas = () => {
     navigation.navigate('Vidas');
   };
@@ -254,7 +256,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: '#0C331C',
   },
   scrollContainer: {
     paddingBottom: 90,
