@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { SafeAreaView, TextInput, TouchableOpacity, Text, KeyboardAvoidingView, Platform, StyleSheet, TouchableWithoutFeedback, Keyboard, View, Alert } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { FIREBASE_AUTH } from './../Firebase'; // Certifique-se que o caminho está correto
-import { useNavigation } from '@react-navigation/native'; // Para redirecionar o usuário
+import { FIREBASE_AUTH } from './../Firebase';
+import { useNavigation } from '@react-navigation/native';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
-  const navigation = useNavigation(); // Hook de navegação
+  const navigation = useNavigation();
 
   const handleLogin = async () => {
     let errorMessages = {};
@@ -32,7 +32,7 @@ export default function LoginScreen() {
       await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
       navigation.reset({
         index: 0,
-        routes: [{ name: 'Home' }], // Redireciona para a tela Home
+        routes: [{ name: 'Home' }], // Redireciona para a tela Home após o login bem-sucedido
       });
     } catch (error) {
       console.error('Erro ao fazer login:', error);
@@ -44,13 +44,13 @@ export default function LoginScreen() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
-          <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
+          {/* Ícone de voltar que leva diretamente para HomeScreen */}
+          <TouchableOpacity style={styles.backIcon} onPress={() => navigation.navigate('HomeScreen')}>
             <Ionicons name="arrow-back" size={28} color="#fff" />
           </TouchableOpacity>
 
           <Text style={styles.title}>Login</Text>
 
-          {/* Campo de E-mail */}
           <TextInput
             style={[styles.input, errors.email ? styles.inputError : null]}
             placeholder="E-mail"
@@ -61,7 +61,6 @@ export default function LoginScreen() {
           />
           {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
 
-          {/* Campo de Senha */}
           <View style={styles.passwordContainer}>
             <TextInput
               style={[styles.inputPassword, errors.password ? styles.inputError : null]}
@@ -77,23 +76,18 @@ export default function LoginScreen() {
           </View>
           {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
 
-          {/* Erro geral de autenticação */}
           {errors.general ? <Text style={styles.errorText}>{errors.general}</Text> : null}
 
-          {/* Botão de Login */}
           <TouchableOpacity style={styles.btn} onPress={handleLogin}>
             <Text style={styles.btnText}>Entrar</Text>
           </TouchableOpacity>
 
-          {/* Esqueci a senha */}
           <TouchableOpacity onPress={() => Alert.alert('Esqueci minha senha', 'Funcionalidade em desenvolvimento')}>
             <Text style={styles.forgotPassword}>Esqueceu sua senha?</Text>
           </TouchableOpacity>
 
-          {/* Linha horizontal */}
           <View style={styles.horizontalLine} />
 
-          {/* Link para cadastro */}
           <View style={styles.signupContainer}>
             <Text style={styles.signupText}>Não tem uma conta?</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
@@ -111,7 +105,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0C331C', // Fundo escuro para consistência
+    backgroundColor: '#0C331C',
     paddingHorizontal: 20,
   },
   backIcon: {
@@ -128,12 +122,12 @@ const styles = StyleSheet.create({
   input: {
     width: '90%',
     height: 50,
-    backgroundColor: '#333', // Fundo mais escuro para os campos de input
+    backgroundColor: '#333',
     paddingHorizontal: 15,
     marginBottom: 15,
     borderRadius: 12,
     fontSize: 16,
-    color: '#fff', // Cor do texto nos inputs
+    color: '#fff',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -143,7 +137,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '90%',
     alignItems: 'center',
-    backgroundColor: '#333', // Fundo mais escuro para os campos de senha
+    backgroundColor: '#333',
     borderRadius: 12,
     marginBottom: 15,
     shadowColor: '#000',
@@ -156,16 +150,11 @@ const styles = StyleSheet.create({
     height: 50,
     paddingHorizontal: 15,
     fontSize: 16,
-    color: '#fff', // Cor do texto nos campos de senha
+    color: '#fff',
   },
   showPasswordButton: {
     paddingHorizontal: 10,
     justifyContent: 'center',
-  },
-  showPasswordText: {
-    color: '#68D391', // Verde do tema para o botão de mostrar/ocultar senha
-    fontSize: 16,
-    fontWeight: 'bold',
   },
   inputError: {
     borderColor: 'red',
@@ -179,7 +168,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   btn: {
-    backgroundColor: '#68D391', // Cor verde para o botão de login
+    backgroundColor: '#68D391',
     borderRadius: 25,
     padding: 15,
     width: '80%',

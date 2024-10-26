@@ -1,56 +1,60 @@
 import React from 'react';
-import { SafeAreaView, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { SafeAreaView, Text, TouchableOpacity, Image, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 
 export default function HomeScreen({ navigation }) {
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Imagem de fundo: circle */}
-      <Image
-        style={styles.circleImg}
-        source={require('./../../assets/Circle.png')} // Caminho ajustado da imagem Circle
-        resizeMode="cover"
-      />
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+        {/* Imagem de fundo: circle */}
+        <Image
+          style={styles.circleImg}
+          source={require('./../../assets/Circle.png')}
+          resizeMode="cover"
+        />
 
-      {/* Elipse sobreposta */}
-      <Image
-        style={styles.ellipseImg}
-        source={require('./../../assets/Ellipse.png')} // Caminho ajustado da imagem Ellipse
-        resizeMode="cover"
-      />
+        {/* Elipse sobreposta */}
+        <Image
+          style={styles.ellipseImg}
+          source={require('./../../assets/Ellipse.png')}
+          resizeMode="cover"
+        />
 
-      {/* Logo */}
-      <Image
-        source={require('./../../assets/LogoAgroCare.png')} // Caminho ajustado da imagem LogoAgroCare
-        style={styles.smallLogoImg}
-      />
+        {/* Logo */}
+        <Image
+          source={require('./../../assets/LogoAgroCare.png')}
+          style={styles.smallLogoImg}
+        />
 
-      {/* Texto do slogan */}
-      <Text style={styles.subtitle}>
-        Faça parte da nova{"\n"}geração agropecuarista{"\n"}do Brasil!
-      </Text>
+        {/* Texto do slogan */}
+        <Text style={styles.subtitle}>
+          Faça parte da nova{"\n"}geração agropecuarista{"\n"}do Brasil!
+        </Text>
 
-      {/* Botões */}
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={() => navigation.navigate('Login')} // Navegação para a tela de Login
-      >
-        <Text style={styles.btnText}>Entrar</Text>
-      </TouchableOpacity>
+        {/* Botões */}
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => navigation.navigate('Login')} // Navegação para a tela de Login
+        >
+          <Text style={styles.btnText}>Entrar</Text>
+        </TouchableOpacity>
 
-      {/* Botão para ir à tela de Cadastro */}
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={() => navigation.navigate('Cadastro')} 
-      >
-        <Text style={styles.btnText}>Cadastrar-se</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => navigation.navigate('Cadastro')} 
+        >
+          <Text style={styles.btnText}>Cadastrar-se</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: '#0C331C', // Alterado para fundo escuro consistente com o layout geral do aplicativo
@@ -102,4 +106,4 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '-2deg' }],
     zIndex: 1,
   },
-}); 
+});

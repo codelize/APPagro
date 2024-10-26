@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { SafeAreaView, Image, View, StyleSheet } from 'react-native';
+import { Image, View, StyleSheet, ScrollView } from 'react-native';
 
 export default function LoadingScreen({ navigation }) {
   useEffect(() => {
@@ -11,7 +11,7 @@ export default function LoadingScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
       <View style={styles.loadingImageContainer}>
         <Image
           style={styles.circleImg}
@@ -24,13 +24,13 @@ export default function LoadingScreen({ navigation }) {
           resizeMode="contain"
         />
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#0C331C', // Fundo escuro para consistência com a aplicação
