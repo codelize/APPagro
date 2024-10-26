@@ -209,7 +209,7 @@ export default function Home() {
         </View>
 
         <View style={styles.statsContainer}>
-          <TouchableOpacity style={[styles.statCard, styles.leftCard]} onPress={navigateToConsultas}>
+          <TouchableOpacity style={[styles.statCard, styles.leftCard]} onPress={navigateToVidas}>
             <View style={styles.statContainer}>
               <Text style={styles.statNumber}>3.127</Text>
               <Text style={styles.statLabel}>Animais</Text>
