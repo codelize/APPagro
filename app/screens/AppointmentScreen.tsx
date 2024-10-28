@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TextInput, Dimensions, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TextInput, SafeAreaView, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import styles from '../styles/AppointmentScreenStyles.'; // Import dos estilos separados
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
-const { width } = Dimensions.get('window');
+interface BovineData {
+  id: string;
+  name: string;
+  details: string;
+  amount: string;
+}
 
-const bovineData = [
+const bovineData: BovineData[] = [
   { id: '1', name: 'Boi 789', details: 'Exame de Sangue - Check-up Anual', amount: '-R$120' },
   { id: '2', name: 'Boi 230', details: 'Vacinação contra Febre Aftosa', amount: '-R$75' },
   { id: '3', name: 'Boi 345', details: 'Consulta de Rotina - Avaliação de Saúde', amount: '-R$150' },
@@ -42,14 +49,15 @@ const bovineData = [
   { id: '35', name: 'Boi 555', details: 'Consulta de Rotina - Verificação de Sinais Vitais', amount: '-R$150' },
 ];
 
-const BovineExpenseReportScreen = ({ navigation }) => {
+const AppointmentScreen = () => {
   const [searchText, setSearchText] = useState('');
+  const navigation = useNavigation<NavigationProp<any>>();
 
   const filteredData = bovineData.filter((animal) =>
     animal.name.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  const renderExpenseItem = ({ item }) => (
+  const renderExpenseItem = ({ item }: { item: BovineData }) => (
     <View style={styles.expenseCard}>
       <Ionicons name="medkit-outline" size={28} color="#FFFFFF" style={styles.icon} />
       <View style={styles.infoContainer}>
@@ -67,7 +75,7 @@ const BovineExpenseReportScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={28} color="#fff" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Informes</Text>
+        <Text style={styles.headerTitle}>Consultas</Text>
       </View>
 
       <TextInput
@@ -87,71 +95,4 @@ const BovineExpenseReportScreen = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#121212',
-    paddingHorizontal: 16,
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 50,
-    zIndex: 2,
-  },
-  backIcon: {
-    position: 'absolute',
-    left: 20,
-    zIndex: 1,
-    padding: 8,
-  },
-  headerTitle: {
-    color: '#EAEAEA',
-    fontSize: 28,
-    fontWeight: 'bold',
-  },
-  searchBar: {
-    backgroundColor: '#1E1E1E',
-    borderRadius: 10,
-    padding: 12,
-    marginVertical: 10,
-    color: '#FFFFFF',
-    fontSize: 16,
-  },
-  list: {
-    paddingBottom: 80,
-  },
-  expenseCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#1E1E1E',
-    borderRadius: 12,
-    padding: 16,
-    marginVertical: 8,
-  },
-  icon: {
-    marginRight: 12,
-  },
-  infoContainer: {
-    flex: 1,
-  },
-  animalName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-  },
-  detailsText: {
-    fontSize: 14,
-    color: '#A9A9A9',
-  },
-  amountText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  alertIcon: {
-    marginLeft: 10,
-  },
-});
-
-export default BovineExpenseReportScreen;
+export default AppointmentScreen;

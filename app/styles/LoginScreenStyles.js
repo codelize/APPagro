@@ -1,0 +1,112 @@
+import { StyleSheet } from 'react-native';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#0C331C',
+    paddingHorizontal: 20,
+  },
+  backIcon: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+  },
+  title: {
+    fontSize: 32,
+    color: '#fff',
+    marginBottom: 40,
+    fontWeight: 'bold',
+  },
+  input: {
+    width: '90%',
+    height: 50,
+    backgroundColor: '#333',
+    paddingHorizontal: 15,
+    marginBottom: 15,
+    borderRadius: 12,
+    fontSize: 16,
+    color: '#fff',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    elevation: 2,
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    width: '90%',
+    alignItems: 'center',
+    backgroundColor: '#333',
+    borderRadius: 12,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    elevation: 2,
+  },
+  inputPassword: {
+    flex: 1,
+    height: 50,
+    paddingHorizontal: 15,
+    fontSize: 16,
+    color: '#fff',
+  },
+  showPasswordButton: {
+    paddingHorizontal: 10,
+    justifyContent: 'center',
+  },
+  inputError: {
+    borderColor: 'red',
+    borderWidth: 1,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    alignSelf: 'flex-start',
+    marginLeft: '5%',
+    marginBottom: 10,
+  },
+  btn: {
+    backgroundColor: '#68D391',
+    borderRadius: 25,
+    padding: 15,
+    width: '80%',
+    alignItems: 'center',
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    elevation: 3,
+  },
+  btnText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+  },
+  forgotPassword: {
+    color: '#8FD3A7',
+    fontSize: 16,
+    textDecorationLine: 'underline',
+    marginBottom: 30,
+    opacity: 0.9,
+  },
+  signupContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 50,
+  },
+  signupText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  signupLink: {
+    color: '#8FD3A7',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 5,
+    textDecorationLine: 'underline',
+  },
+});
+
+export default styles;

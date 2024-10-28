@@ -113,8 +113,8 @@ export default function Home() {
     navigation.navigate('Match');
   };
 
-  const navigateToConsultas = () => {
-    navigation.navigate('Consultas');
+  const navigateToAppointment = () => {
+    navigation.navigate('Appointment');
   };
 
   const navigateToVidas = () => {
@@ -222,7 +222,7 @@ export default function Home() {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity style={[styles.statCard, styles.rightCard]} onPress={navigateToConsultas}>
+          <TouchableOpacity style={[styles.statCard, styles.rightCard]} onPress={navigateToAppointment}>
             <View style={styles.statContainer}>
               <Text style={styles.statNumber}>81</Text>
               <Text style={styles.statLabel}>Consultas</Text>
@@ -244,7 +244,7 @@ export default function Home() {
               <Text style={styles.cardNumber}>21</Text>
               <Text style={styles.cardLabel}>Match</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.dashboardCard, styles.smallCard, styles.transparentCard]} onPress={navigateToConsultas}>
+            <TouchableOpacity style={[styles.dashboardCard, styles.smallCard, styles.transparentCard]} onPress={navigateToAppointment}>
               <Ionicons name="information-circle-outline" size={24} color="#68D391" style={styles.iconPosition} />
               <Text style={styles.cardNumber}>81</Text>
               <Text style={styles.cardLabel}>Consultas</Text>

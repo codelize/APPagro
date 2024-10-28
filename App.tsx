@@ -7,12 +7,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LoadingScreen from './app/screens/LoadingScreen';
 import HomeScreen from './app/screens/HomeScreen';
 import Home from './app/screens/Home';
-import LoginScreen from './app/screens/Login';
-import CadastroScreen from './app/screens/CadastroScreen';
-import VeterinariosMatch from './app/screens/VeterinariosMatch';
-import ConsultasScreen from './app/screens/ConsultasScreen';
-import VidasScreen from './app/screens/VidasScreen';
-import PreferencesScreen from './app/screens/PreferencesScreen'; // Nova tela de Preferências
+import LoginScreen from './app/screens/LoginScreen';
+import CadastroScreen from './app/screens/RegistrationScreen';
+import VetMeet from './app/screens/VetMeet';
+import AppointmentScreen from './app/screens/AppointmentScreen';
+import VidasScreen from './app/screens/LifeScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -51,7 +50,7 @@ function MainTabs() {
       })}
     >
       <Tab.Screen name="Home" component={Home} options={{ headerShown: false }} />
-      <Tab.Screen name="Match" component={VeterinariosMatch} options={{ headerShown: false }} />
+      <Tab.Screen name="Match" component={VetMeet} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 }
@@ -68,8 +67,8 @@ export default function App() {
         
         {/* Configuração com gestureEnabled para deslizar e voltar */}
         <Stack.Screen 
-          name="VeterinariosMatch" 
-          component={VeterinariosMatch} 
+          name="VetMeet" 
+          component={VetMeet} 
           options={{
             headerShown: false,
             gestureEnabled: true, // Habilita o gesto de deslizar para voltar
@@ -78,9 +77,8 @@ export default function App() {
         /> 
         
         {/* Outras telas */}
-        <Stack.Screen name="Consultas" component={ConsultasScreen} options={{ headerShown: false }} /> 
+        <Stack.Screen name="Appointment" component={AppointmentScreen} options={{ headerShown: false }} /> 
         <Stack.Screen name="Vidas" component={VidasScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Preferences" component={PreferencesScreen} options={{ headerShown: false }} /> 
       </Stack.Navigator>
     </NavigationContainer>
   );
