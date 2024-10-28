@@ -11,7 +11,7 @@ import LoginScreen from './app/screens/LoginScreen';
 import CadastroScreen from './app/screens/RegistrationScreen';
 import VetMeet from './app/screens/VetMeet';
 import AppointmentScreen from './app/screens/AppointmentScreen';
-import VidasScreen from './app/screens/LifeScreen';
+import LifeScreen from './app/screens/LifeScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,7 +27,7 @@ function MainTabs() {
 
           if (route.name === 'Home') {
             iconName = 'home-outline';
-          } else if (route.name === 'Match') {
+          } else if (route.name === 'Life') {
             iconName = 'heart-outline';
           }
 
@@ -50,7 +50,7 @@ function MainTabs() {
       })}
     >
       <Tab.Screen name="Home" component={Home} options={{ headerShown: false }} />
-      <Tab.Screen name="Match" component={VetMeet} options={{ headerShown: false }} />
+      <Tab.Screen name="Life" component={LifeScreen} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 }
@@ -58,27 +58,26 @@ function MainTabs() {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Loading">
-        <Stack.Screen name="Loading" component={LoadingScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Cadastro" component={CadastroScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Home" component={MainTabs} options={{ headerShown: false }} />
+      <Stack.Navigator
+        initialRouteName="Loading"
+        screenOptions={{
+          gestureEnabled: true, // Habilita o gesto de deslizar para voltar
+          gestureDirection: 'horizontal', // Configura o gesto para direção horizontal
+          headerShown: false, // Oculta o cabeçalho por padrão
+        }}
+      >
+        <Stack.Screen name="Loading" component={LoadingScreen} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Cadastro" component={CadastroScreen} />
+        <Stack.Screen name="Home" component={MainTabs} />
         
-        {/* Configuração com gestureEnabled para deslizar e voltar */}
-        <Stack.Screen 
-          name="VetMeet" 
-          component={VetMeet} 
-          options={{
-            headerShown: false,
-            gestureEnabled: true, // Habilita o gesto de deslizar para voltar
-            gestureDirection: 'horizontal', // Configura o gesto para horizontal
-          }}  
-        /> 
-        
+        {/* Colocando VetMeet no Stack Navigator para compatibilidade do gesto de voltar */}
+        <Stack.Screen name="VetMeet" component={VetMeet} />
+
         {/* Outras telas */}
-        <Stack.Screen name="Appointment" component={AppointmentScreen} options={{ headerShown: false }} /> 
-        <Stack.Screen name="Vidas" component={VidasScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Appointment" component={AppointmentScreen} />
+        <Stack.Screen name="LifeScreen" component={LifeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

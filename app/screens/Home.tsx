@@ -109,8 +109,8 @@ export default function Home() {
     setSelectedImage(null);
   };
 
-  const navigateToVeterinariosMatch = () => {
-    navigation.navigate('Match');
+  const navigateToVetMeet = () => {
+    navigation.navigate('VetMeet');
   };
 
   const navigateToAppointment = () => {
@@ -239,10 +239,10 @@ export default function Home() {
 
         <View style={styles.dashboardContainer}>
           <View style={styles.leftColumn}>
-            <TouchableOpacity style={[styles.dashboardCard, styles.smallCard, styles.transparentCard]} onPress={navigateToVeterinariosMatch}>
+            <TouchableOpacity style={[styles.dashboardCard, styles.smallCard, styles.transparentCard]} onPress={navigateToVetMeet}>
               <Ionicons name="notifications-outline" size={24} color="#68D391" style={styles.iconPosition} />
               <Text style={styles.cardNumber}>21</Text>
-              <Text style={styles.cardLabel}>Match</Text>
+              <Text style={styles.cardLabel}>Meet</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.dashboardCard, styles.smallCard, styles.transparentCard]} onPress={navigateToAppointment}>
               <Ionicons name="information-circle-outline" size={24} color="#68D391" style={styles.iconPosition} />
