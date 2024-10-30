@@ -12,6 +12,7 @@ import CadastroScreen from './app/screens/RegistrationScreen';
 import VetMeet from './app/screens/VetMeet';
 import AppointmentScreen from './app/screens/AppointmentScreen';
 import LifeScreen from './app/screens/LifeScreen';
+import AnimalHistoryScreen from './app/screens/AnimalHistoryScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -97,6 +98,7 @@ export default function App() {
         {/* Outras telas */}
         <Stack.Screen name="Appointment" component={AppointmentScreen} />
         <Stack.Screen name="LifeScreen" component={LifeScreen} />
+        <Stack.Screen name="AnimalHistory" component={AnimalHistoryScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

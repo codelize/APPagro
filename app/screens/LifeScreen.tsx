@@ -67,6 +67,10 @@ const LifeScreen = ({ navigation }) => {
         setExpandedId(prevId => (prevId === id ? null : id));
     };
 
+    const handleViewHistory = (animalId) => {
+        navigation.navigate('AnimalHistory', { animalId });
+    };
+
     const renderAnimalItem = ({ item }) => {
         const isExpanded = item.id === expandedId;
 
@@ -122,6 +126,11 @@ const LifeScreen = ({ navigation }) => {
                             <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>Valor de Mercado: </Text>
                             {formatCurrency(item.marketValue)}
                         </Text>
+
+                        {/* Botão "Ver histórico" */}
+                        <TouchableOpacity onPress={() => handleViewHistory(item.id)} style={styles.historyButton}>
+                            <Text style={styles.historyButtonText}>Ver histórico</Text>
+                        </TouchableOpacity>
                     </View>
                 )}
             </TouchableOpacity>
@@ -153,7 +162,7 @@ const LifeScreen = ({ navigation }) => {
                     data={animalStock}
                     renderItem={renderAnimalItem}
                     keyExtractor={(item) => item.id}
-                    contentContainerStyle={{ flexGrow: 0 }} // Ocupa apenas o espaço dos itens
+                    contentContainerStyle={{ flexGrow: 0 }}
                 />
             )}
         </SafeAreaView>

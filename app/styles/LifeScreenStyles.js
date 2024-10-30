@@ -72,6 +72,17 @@ const styles = StyleSheet.create({
     marginTop: 8,
     paddingTop: 8,
   },
+  historyButton: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: '#68D391',
+    borderRadius: 5,
+    alignItems: 'center',
+},
+historyButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+},
 });
 
 export default styles;
