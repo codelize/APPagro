@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, Image, TouchableOpacity, Dimensions, Alert } from 'react-native';
+import { SafeAreaView, View, Text, Image, TouchableOpacity, Dimensions, Alert, ActivityIndicator, Animated } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Swiper from 'react-native-deck-swiper';
 import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
+import { FIRESTORE_DB, FIREBASE_STORAGE } from '../Firebase';
+import { collection, getDocs } from 'firebase/firestore';
+import { ref, getDownloadURL } from 'firebase/storage';
 import styles from '../styles/VetMeetStyles';
 
 const { width } = Dimensions.get('window');
@@ -16,162 +19,48 @@ export default function VetMeet() {
   const [showNoMoreVeterinarios, setShowNoMoreVeterinarios] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
   const [swipedCards, setSwipedCards] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const veterinariosData = [
-    {
-      id: '1', 
-      nome: 'Dr. José Silva', 
-      idade: 41, 
-      localizacao: 'Fazenda Rio Verde', 
-      foto: require('../../assets/vet1.jpg'), 
-      especialidade: 'Bovinos e Nutrição Animal', 
-      experiencia: 'Veterinário com mais de 20 anos focado em nutrição e manejo sanitário de bovinos.',
-      avaliacao: 4.5
-    },
-    { 
-      id: '2', 
-      nome: 'Dra. Maria Souza', 
-      idade: 34, 
-      localizacao: 'Fazenda Vista Alegre', 
-      foto: require('../../assets/vet2.jpg'), 
-      especialidade: 'Equinos e Fisioterapia Animal', 
-      experiencia: 'Especialista em fisioterapia e reabilitação de equinos e animais de grande porte.',
-      avaliacao: 4.0
-    },
-    { 
-      id: '3', 
-      nome: 'Dr. Carlos Pereira', 
-      idade: 50, 
-      localizacao: 'Fazenda Boa Vista', 
-      foto: require('../../assets/vet3.jpg'), 
-      especialidade: 'Saúde Reprodutiva de Bovinos', 
-      experiencia: 'Veterinário com mais de 30 anos de atuação em reprodução e genética bovina.',
-      avaliacao: 4.8
-    },
-    { 
-      id: '4', 
-      nome: 'Dr. Silvio Lima', 
-      idade: 34, 
-      localizacao: 'Fazenda São João', 
-      foto: require('../../assets/vet4.jpg'), 
-      especialidade: 'Pequenos Ruminantes', 
-      experiencia: 'Especializado em cuidados de saúde para caprinos e ovinos em ambiente rural.',
-      avaliacao: 4.6
-    },
-    { 
-      id: '5', 
-      nome: 'Dr. Marcos Santos', 
-      idade: 43, 
-      localizacao: 'Fazenda Nova Esperança', 
-      foto: require('../../assets/vet5.jpg'), 
-      especialidade: 'Emergência Veterinária Rural', 
-      experiencia: 'Atua em emergências e traumas veterinários para animais de grande porte.',
-      avaliacao: 4.7
-    },
-    { 
-      id: '6', 
-      nome: 'Dr. Fernando Almeida', 
-      idade: 34, 
-      localizacao: 'Fazenda Paraíso', 
-      foto: require('../../assets/vet6.jpg'), 
-      especialidade: 'Resgate de Animais Silvestres', 
-      experiencia: 'Especialista em reabilitação e conservação de espécies nativas em ambiente rural.',
-      avaliacao: 4.9
-    },
-    { 
-      id: '7', 
-      nome: 'Dr. Paulo Gonçalves', 
-      idade: 34, 
-      localizacao: 'Fazenda Verdejante', 
-      foto: require('../../assets/vet7.jpg'), 
-      especialidade: 'Manejo de Gado Leiteiro', 
-      experiencia: 'Veterinário com 25 anos de experiência em produção de leite e bem-estar animal.',
-      avaliacao: 4.3
-    },
-    { 
-      id: '8', 
-      nome: 'Dra. Tatiane Ribeiro', 
-      idade: 31, 
-      localizacao: 'Fazenda Boa Terra', 
-      foto: require('../../assets/vet8.jpg'), 
-      especialidade: 'Medicina Veterinária Equina', 
-      experiencia: 'Veterinária focada em reabilitação, prevenção e cuidados intensivos para equinos.',
-      avaliacao: 4.4
-    },
-    { 
-      id: '9', 
-      nome: 'Dr. Roberto Costa', 
-      idade: 37, 
-      localizacao: 'Fazenda Campo Alegre', 
-      foto: require('../../assets/vet9.jpg'), 
-      especialidade: 'Nutrição de Suínos', 
-      experiencia: 'Especialista em nutrição e manejo de suínos para produção sustentável.',
-      avaliacao: 4.5
-    },
-    { 
-      id: '10', 
-      nome: 'Dra. Juliana Martins', 
-      idade: 51, 
-      localizacao: 'Fazenda Horizonte', 
-      foto: require('../../assets/vet10.jpg'), 
-      especialidade: 'Zoonoses e Saúde Animal', 
-      experiencia: 'Veterinária com experiência em prevenção de zoonoses e controle sanitário em fazendas.',
-      avaliacao: 4.2
-    },
-    { 
-      id: '11', 
-      nome: 'Dr. Henrique Lopes', 
-      idade: 41, 
-      localizacao: 'Fazenda da Paz', 
-      foto: require('../../assets/vet11.jpg'), 
-      especialidade: 'Conservação de Fauna Silvestre', 
-      experiencia: 'Veterinário focado em conservação e manejo de espécies silvestres em áreas rurais.',
-      avaliacao: 4.7
-    },
-    { 
-      id: '12', 
-      nome: 'Dra. Luana Mendes', 
-      idade: 33, 
-      localizacao: 'Fazenda Luar', 
-      foto: require('../../assets/vet12.jpg'), 
-      especialidade: 'Reprodução de Gado de Corte', 
-      experiencia: 'Especialista em manejo, reprodução e melhoramento genético de gado de corte.',
-      avaliacao: 4.6
-    },
-    { 
-      id: '13', 
-      nome: 'Dr. Felipe Nascimento', 
-      idade: 39, 
-      localizacao: 'Fazenda Sol Nascente', 
-      foto: require('../../assets/vet13.jpg'), 
-      especialidade: 'Clínica Equina', 
-      experiencia: 'Veterinário com experiência em cuidados intensivos para equinos em fazendas.',
-      avaliacao: 4.3
-    },
-    { 
-      id: '14', 
-      nome: 'Dr. Paulo Teixeira', 
-      idade: 44, 
-      localizacao: 'Fazenda Primavera', 
-      foto: require('../../assets/vet14.jpg'), 
-      especialidade: 'Produção e Saúde de Suínos', 
-      experiencia: 'Veterinário com experiência em suinocultura e técnicas avançadas de manejo.',
-      avaliacao: 4.8
-    },
-    { 
-      id: '15', 
-      nome: 'Dr. Alan Rocha', 
-      idade: 49, 
-      localizacao: 'Fazenda São Pedro', 
-      foto: require('../../assets/vet15.jpg'), 
-      especialidade: 'Veterinária de Campo', 
-      experiencia: 'Veterinário com vasta experiência no tratamento de diversos tipos de animais rurais.',
-      avaliacao: 4.5
+  // Função para buscar os dados dos veterinários do Firebase
+  const fetchVeterinarios = async () => {
+    setLoading(true);
+    try {
+      const veterinarioCollection = collection(FIRESTORE_DB, 'professionals');
+      const querySnapshot = await getDocs(veterinarioCollection);
+
+      const veterinariosData = await Promise.all(
+        querySnapshot.docs.map(async (doc) => {
+          const data = doc.data();
+          let imageUrl = null;
+          if (data.imageName) {
+            const imageRef = ref(FIREBASE_STORAGE, `veterinario_images/${data.imageName}`);
+            imageUrl = await getDownloadURL(imageRef);
+          }
+
+          return {
+            id: doc.id,
+            nome: data.gen === 'M' ? `Dr. ${data.nome}` : `Dra. ${data.nome}`,
+            idade: data.idade,
+            localizacao: data.localizacao,
+            foto: imageUrl || 'https://via.placeholder.com/150',
+            especialidade: data.especialidade,
+            experiencia: data.experiencia,
+            avaliacao: data.avaliacao,
+          };
+        })
+      );
+
+      setVeterinarios(veterinariosData);
+    } catch (error) {
+      console.error("Erro ao buscar dados do Firestore:", error);
+      Alert.alert("Erro", "Não foi possível carregar os dados dos veterinários.");
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
-useEffect(() => {
-    setVeterinarios(veterinariosData);
+  useEffect(() => {
+    fetchVeterinarios();
     loadFavoritos();
     getUserLocation();
   }, []);
@@ -217,7 +106,7 @@ useEffect(() => {
   };
 
   const recarregarVeterinarios = () => {
-    setVeterinarios(veterinariosData);
+    fetchVeterinarios();
     setShowNoMoreVeterinarios(false);
     setSwipedCards([]);
   };
@@ -241,19 +130,19 @@ useEffect(() => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {!showNoMoreVeterinarios && (
-        <>
-          <View style={styles.headerContainer}>
-            <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
-              <Ionicons name="arrow-back" size={28} color="#fff" />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Meet</Text>
-          </View>
-          <Text style={styles.subHeader}>Conheça profissionais da sua região</Text>
-        </>
-      )}
+      <View style={styles.headerContainer}>
+        <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={28} color="#fff" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Meet</Text>
+      </View>
+      <Text style={styles.subHeader}>Conheça profissionais da sua região</Text>
 
-      {showNoMoreVeterinarios ? (
+      {loading ? (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size="large" color="#fff" />
+        </View>
+      ) : showNoMoreVeterinarios ? (
         <View style={styles.noMoreContainer}>
           <Text style={styles.noMoreText}>Não há mais profissionais na sua região.</Text>
           <TouchableOpacity style={styles.refreshButton} onPress={recarregarVeterinarios}>
@@ -266,9 +155,9 @@ useEffect(() => {
           cards={veterinarios}
           renderCard={(veterinario) =>
             veterinario ? (
-              <View style={styles.veterinarioCard}>
+              <Animated.View style={styles.veterinarioCard}>
                 <TouchableOpacity onPress={() => verDetalhes(veterinario)}>
-                  <Image source={veterinario.foto} style={styles.veterinarioFoto} />
+                  <Image source={{ uri: veterinario.foto }} style={styles.veterinarioFoto} resizeMode="cover" />
                   <View style={styles.infoContainer}>
                     <Text style={styles.veterinarioNome}>
                       {veterinario.nome}, {veterinario.idade}
@@ -286,32 +175,27 @@ useEffect(() => {
                     </View>
                   </View>
                 </TouchableOpacity>
-                <View style={styles.buttonContainer}>
-                  {swipedCards.length > 0 && (
-                    <TouchableOpacity onPress={undoLastSwipe} style={styles.redoButton}>
-                      <Ionicons name="arrow-undo-outline" size={20} color="#fff" />
-                    </TouchableOpacity>
-                  )}
-                  <TouchableOpacity style={styles.contactButton}>
-                    <Ionicons name="call-outline" size={20} color="#fff" />
-                    <Text style={styles.buttonText}>Contato</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.scheduleButton}>
-                    <Ionicons name="calendar-outline" size={20} color="#fff" />
-                    <Text style={styles.buttonText}>Agendar</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
+              </Animated.View>
             ) : null
           }
           onSwiped={(cardIndex) => handleSwipedCard(cardIndex)}
           onSwipedAll={handleSwipedAll}
           cardIndex={0}
           backgroundColor={'#1A1A1A'}
-          stackSize={3}
-          stackSeparation={15}
-          disableBottomSwipe={true} // Desativa swipe inferior
-          disableTopSwipe={true} // Desativa swipe superior
+          stackSize={4} // Aumente o stackSize para uma transição mais suave
+          stackSeparation={10} // Reduza o stackSeparation para aproximar os cards
+          animateCardOpacity
+          animateOverlayLabelsOpacity
+          overlayLabels={{
+            left: {
+              title: 'NÃO',
+              style: { label: { color: 'red', fontSize: 24 } }
+            },
+            right: {
+              title: 'SIM',
+              style: { label: { color: 'green', fontSize: 24 } }
+            }
+          }}
         />
       )}
     </SafeAreaView>

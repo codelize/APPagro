@@ -117,13 +117,13 @@ export default StyleSheet.create({
   },
   avatarContainer: {
     position: 'absolute',
-    top: -10,
+    top:-5,
     left: '35%',
     zIndex: 1,
   },
   avatar: {
-    width: 110,
-    height: 110,
+    width: 100,
+    height: 100,
     borderRadius: 35,
     borderColor: '#68D391',
     borderWidth: 3,
