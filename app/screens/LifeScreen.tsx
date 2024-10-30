@@ -70,15 +70,21 @@ const LifeScreen = ({ navigation }) => {
     const renderAnimalItem = ({ item }) => {
         const isExpanded = item.id === expandedId;
 
+        const healthStatusStyle = {
+            "Saudável": { color: '#68D391' },
+            "Em Observação/Tratamento": { color: '#FFD700' },
+            "Crítico": { color: '#FF4C4C' },
+        }[item.healthStatus] || { color: '#B0B0B0' };
+
         return (
             <TouchableOpacity onPress={() => toggleExpand(item.id)} style={styles.card}>
                 <View style={styles.row}>
                     <Image source={{ uri: item.imageUrl }} style={styles.animalImage} />
                     <View style={styles.infoContainer}>
-                        <Text style={styles.title}>{item.name}</Text>
+                        <Text style={[styles.title, { marginBottom: 4 }]}>{item.name}</Text>
                         <Text style={styles.info}>{item.species}</Text>
-                        <Text style={[styles.info, item.healthStatus === 'Saudável' ? styles.healthy : styles.unhealthy]}>
-                            Saúde: {item.healthStatus}
+                        <Text style={styles.info}>
+                            Saúde: <Text style={healthStatusStyle}>{item.healthStatus}</Text>
                         </Text>
                     </View>
 
@@ -96,12 +102,25 @@ const LifeScreen = ({ navigation }) => {
 
                 {isExpanded && (
                     <View style={styles.expandedSection}>
-                        <Text style={styles.info}>Nascimento: {formatDate(item.birthDate)}</Text>
-                        <Text style={styles.info}>Peso: {item.weight}</Text>
-                        <Text style={styles.info}>Última Consulta: {formatDate(item.lastConsultation)}</Text>
-                        <Text style={styles.info}>Localização: {item.location}</Text>
                         <Text style={styles.info}>
-                            Valor de Mercado: {formatCurrency(item.marketValue)}
+                            <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>Nascimento: </Text>
+                            {formatDate(item.birthDate)}
+                        </Text>
+                        <Text style={styles.info}>
+                            <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>Peso: </Text>
+                            {item.weight}
+                        </Text>
+                        <Text style={styles.info}>
+                            <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>Última Consulta: </Text>
+                            {formatDate(item.lastConsultation)}
+                        </Text>
+                        <Text style={styles.info}>
+                            <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>Localização: </Text>
+                            {item.location}
+                        </Text>
+                        <Text style={styles.info}>
+                            <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>Valor de Mercado: </Text>
+                            {formatCurrency(item.marketValue)}
                         </Text>
                     </View>
                 )}
@@ -134,7 +153,7 @@ const LifeScreen = ({ navigation }) => {
                     data={animalStock}
                     renderItem={renderAnimalItem}
                     keyExtractor={(item) => item.id}
-                    contentContainerStyle={styles.list}
+                    contentContainerStyle={{ flexGrow: 0 }} // Ocupa apenas o espaço dos itens
                 />
             )}
         </SafeAreaView>

@@ -83,7 +83,7 @@ export default function Home() {
     setIsLoggingOut(false);
     navigation.reset({
       index: 0,
-      routes: [{ name: 'Login' }], // Reset para garantir que a tela "Home" seja removida do histórico
+      routes: [{ name: 'Login' }],
     });
   };
 
@@ -123,12 +123,12 @@ export default function Home() {
 
   const carouselItems = [
     { id: '1', title: 'Dr. José Silva', image: require('../../assets/avatar1.png') },
-{ id: '2', title: 'Dra. Maria Souza', image: require('../../assets/avatar2.png') },
-{ id: '3', title: 'Dr. Carlos Pereira', image: require('../../assets/avatar3.png') },
-{ id: '4', title: 'Dr. Silvio Lima', image: require('../../assets/avatar4.png') },
-{ id: '5', title: 'Dr. Marcos Santos', image: require('../../assets/avatar5.png') },
-{ id: '6', title: 'Dr. Fernando Almeida', image: require('../../assets/avatar6.png') },
-  ]
+    { id: '2', title: 'Dra. Maria Souza', image: require('../../assets/avatar2.png') },
+    { id: '3', title: 'Dr. Carlos Pereira', image: require('../../assets/avatar3.png') },
+    { id: '4', title: 'Dr. Silvio Lima', image: require('../../assets/avatar4.png') },
+    { id: '5', title: 'Dr. Marcos Santos', image: require('../../assets/avatar5.png') },
+    { id: '6', title: 'Dr. Fernando Almeida', image: require('../../assets/avatar6.png') },
+  ];
 
   const renderCarouselItem = ({ item }) => (
     <View style={styles.carouselItem}>
@@ -188,7 +188,7 @@ export default function Home() {
     <SafeAreaView style={styles.container}>
       <Image source={require('../../assets/Elli.png')} style={styles.elliBackground} />
       <ScrollView
-        contentContainerStyle={styles.scrollContainer}
+        contentContainerStyle={{ ...styles.scrollContainer, flexGrow: 1 }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
