@@ -217,10 +217,10 @@ export default function Home() {
           </TouchableOpacity>
 
           <View style={styles.avatarContainer}>
-            <TouchableOpacity onPress={() => openModal({ uri: 'https://loodibee.com/wp-content/uploads/Netflix-avatar-11.png' })}>
-              <Image source={{ uri: 'https://loodibee.com/wp-content/uploads/Netflix-avatar-11.png' }} style={styles.avatar} />
-            </TouchableOpacity>
-          </View>
+  <TouchableOpacity onPress={() => openModal(require('../../assets/image.png'))}>
+    <Image source={require('../../assets/image.png')} style={styles.avatar} />
+  </TouchableOpacity>
+</View>
 
           <TouchableOpacity style={[styles.statCard, styles.rightCard]} onPress={navigateToAppointment}>
             <View style={styles.statContainer}>

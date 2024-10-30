@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, Image, TouchableOpacity, Dimensions, Alert, ActivityIndicator, Animated } from 'react-native';
+import { SafeAreaView, View, Text, Image, TouchableOpacity, Dimensions, Alert, ActivityIndicator } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Swiper from 'react-native-deck-swiper';
@@ -155,9 +155,9 @@ export default function VetMeet() {
           cards={veterinarios}
           renderCard={(veterinario) =>
             veterinario ? (
-              <Animated.View style={styles.veterinarioCard}>
+              <View style={styles.veterinarioCard}>
                 <TouchableOpacity onPress={() => verDetalhes(veterinario)}>
-                  <Image source={{ uri: veterinario.foto }} style={styles.veterinarioFoto} resizeMode="cover" />
+                  <Image source={{ uri: veterinario.foto }} style={styles.veterinarioFoto} />
                   <View style={styles.infoContainer}>
                     <Text style={styles.veterinarioNome}>
                       {veterinario.nome}, {veterinario.idade}
@@ -175,27 +175,32 @@ export default function VetMeet() {
                     </View>
                   </View>
                 </TouchableOpacity>
-              </Animated.View>
+                <View style={styles.buttonContainer}>
+                  {swipedCards.length > 0 && (
+                    <TouchableOpacity onPress={undoLastSwipe} style={styles.redoButton}>
+                      <Ionicons name="arrow-undo-outline" size={20} color="#fff" />
+                    </TouchableOpacity>
+                  )}
+                  <TouchableOpacity style={styles.contactButton}>
+                    <Ionicons name="call-outline" size={20} color="#fff" />
+                    <Text style={styles.buttonText}>Contato</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.scheduleButton}>
+                    <Ionicons name="calendar-outline" size={20} color="#fff" />
+                    <Text style={styles.buttonText}>Agendar</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             ) : null
           }
           onSwiped={(cardIndex) => handleSwipedCard(cardIndex)}
           onSwipedAll={handleSwipedAll}
           cardIndex={0}
           backgroundColor={'#1A1A1A'}
-          stackSize={4} // Aumente o stackSize para uma transição mais suave
-          stackSeparation={10} // Reduza o stackSeparation para aproximar os cards
-          animateCardOpacity
-          animateOverlayLabelsOpacity
-          overlayLabels={{
-            left: {
-              title: 'NÃO',
-              style: { label: { color: 'red', fontSize: 24 } }
-            },
-            right: {
-              title: 'SIM',
-              style: { label: { color: 'green', fontSize: 24 } }
-            }
-          }}
+          stackSize={3}
+          stackSeparation={15}
+          disableBottomSwipe={true} // Desativa swipe inferior
+          disableTopSwipe={true} // Desativa swipe superior
         />
       )}
     </SafeAreaView>

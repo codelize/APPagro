@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TextInput, SafeAreaView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, Animated, TextInput, SafeAreaView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { FIRESTORE_DB } from '../Firebase'; // Certifique-se de ter exportado sua instância do Firestore
+import { FIRESTORE_DB } from '../Firebase';
 import { collection, getDocs, query } from 'firebase/firestore';
-import styles from '../styles/AppointmentScreenStyles.'; // Import dos estilos separados
+import styles from '../styles/AppointmentScreenStyles';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 interface BovineData {
   id: string;
   name: string;
   details: string;
-  amount: number; // Ajuste para number, caso o valor seja numérico no Firebase
+  amount: number;
 }
 
 const AppointmentScreen = () => {
@@ -19,9 +19,9 @@ const AppointmentScreen = () => {
   const [filteredData, setFilteredData] = useState<BovineData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const scrollY = React.useRef(new Animated.Value(0)).current;
   const navigation = useNavigation<NavigationProp<any>>();
 
-  // Função para buscar os dados do Firestore
   const fetchAppointments = async () => {
     setLoading(true);
     setError(null);
@@ -36,7 +36,7 @@ const AppointmentScreen = () => {
       })) as BovineData[];
 
       setBovineData(data);
-      setFilteredData(data); // Define o filtro inicial com todos os dados
+      setFilteredData(data);
     } catch (error) {
       console.error("Erro ao buscar dados do Firestore:", error);
       setError("Não foi possível carregar os dados. Verifique sua conexão e tente novamente.");
@@ -49,11 +49,10 @@ const AppointmentScreen = () => {
     fetchAppointments();
   }, []);
 
-  // Função para atualizar o filtro conforme o texto de busca
   const handleSearch = (text: string) => {
     setSearchText(text);
     if (text === '') {
-      setFilteredData(bovineData); // Se não houver texto, mostrar todos os dados
+      setFilteredData(bovineData);
     } else {
       const filtered = bovineData.filter((animal) =>
         animal.name.toLowerCase().includes(text.toLowerCase())
@@ -62,19 +61,31 @@ const AppointmentScreen = () => {
     }
   };
 
-  const renderExpenseItem = ({ item }: { item: BovineData }) => (
-    <View style={styles.expenseCard}>
-      <Ionicons name="medkit-outline" size={28} color="#FFFFFF" style={styles.icon} />
-      <View style={styles.infoContainer}>
-        <Text style={styles.animalName}>{item.name}</Text>
-        <Text style={styles.detailsText}>{item.details}</Text>
-      </View>
-      <Text style={[styles.amountText, { color: '#FF4500' }]}>
-        R$ {item.amount}
-      </Text>
-      <Ionicons name="alert-circle-outline" size={24} color="#FF4500" style={styles.alertIcon} />
-    </View>
-  );
+  const renderExpenseItem = ({ item, index }: { item: BovineData; index: number }) => {
+    const inputRange = [-1, 0, index * 100, (index + 2) * 100];
+    const scale = scrollY.interpolate({
+      inputRange,
+      outputRange: [1, 1, 1, 0.9],
+    });
+    const opacity = scrollY.interpolate({
+      inputRange,
+      outputRange: [1, 1, 1, 0.6],
+    });
+
+    return (
+      <Animated.View style={[styles.expenseCard, { transform: [{ scale }], opacity }]}>
+        <Ionicons name="medkit-outline" size={28} color="#FFFFFF" style={styles.icon} />
+        <View style={styles.infoContainer}>
+          <Text style={styles.animalName}>{item.name}</Text>
+          <Text style={styles.detailsText}>{item.details}</Text>
+        </View>
+        <Text style={[styles.amountText, { color: '#FF4500' }]}>
+          R$ {item.amount}
+        </Text>
+        <Ionicons name="alert-circle-outline" size={24} color="#FF4500" style={styles.alertIcon} />
+      </Animated.View>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -105,11 +116,15 @@ const AppointmentScreen = () => {
           </TouchableOpacity>
         </View>
       ) : (
-        <FlatList
+        <Animated.FlatList
           data={filteredData}
           renderItem={renderExpenseItem}
           keyExtractor={(item) => item.id}
-          contentContainerStyle={{ flexGrow: 1 }} // Ocupa o espaço exato do conteúdo
+          contentContainerStyle={{ flexGrow: 1 }}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+            { useNativeDriver: true }
+          )}
         />
       )}
     </SafeAreaView>
