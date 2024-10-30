@@ -118,7 +118,7 @@ export default function Home() {
   };
 
   const navigateToVidas = () => {
-    navigation.navigate('Vidas');
+    navigation.navigate('LifeScreen');
   };
 
   const carouselItems = [
@@ -240,12 +240,12 @@ export default function Home() {
         <View style={styles.dashboardContainer}>
           <View style={styles.leftColumn}>
             <TouchableOpacity style={[styles.dashboardCard, styles.smallCard, styles.transparentCard]} onPress={navigateToVetMeet}>
-              <Ionicons name="notifications-outline" size={24} color="#68D391" style={styles.iconPosition} />
+              <Ionicons name="people-outline" size={24} color="#68D391" style={styles.iconPosition} />
               <Text style={styles.cardNumber}>21</Text>
               <Text style={styles.cardLabel}>Meet</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.dashboardCard, styles.smallCard, styles.transparentCard]} onPress={navigateToAppointment}>
-              <Ionicons name="information-circle-outline" size={24} color="#68D391" style={styles.iconPosition} />
+              <Ionicons name="calendar-outline" size={24} color="#68D391" style={styles.iconPosition} />
               <Text style={styles.cardNumber}>81</Text>
               <Text style={styles.cardLabel}>Consultas</Text>
             </TouchableOpacity>

@@ -1,7 +1,7 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { View, TouchableOpacity, Text } from 'react-native';
+import { NavigationContainer, useNavigation, useNavigationState } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import LoadingScreen from './app/screens/LoadingScreen';
@@ -14,44 +14,61 @@ import AppointmentScreen from './app/screens/AppointmentScreen';
 import LifeScreen from './app/screens/LifeScreen';
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
 
-// Função para Tab Navigator (Navegação por abas após login)
-function MainTabs() {
+// Barra de navegação customizada para simular as abas
+function CustomTabBar({ navigation, currentScreen }) {
   return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-          let iconName;
+<View style={{ backgroundColor: '#1A1A1A', borderTopWidth: 1, borderTopColor: '#333', position: 'absolute', bottom: 10, left: 0, right: 0, paddingBottom: 8 }}>
+  <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 6 }}>
+    
+    {/* Área clicável para "Página inicial", cobrindo metade da barra */}
+    <TouchableOpacity onPress={() => navigation.navigate('Home')} style={{ alignItems: 'center', flex: 1 }}>
+      <View style={{ borderWidth: currentScreen === 'Home' ? 2 : 0, borderColor: '#68D391', borderRadius: 15, padding: 4 }}>
+        <Ionicons name="home-outline" size={26} color={currentScreen === 'Home' ? '#68D391' : '#fff'} />
+      </View>
+      <Text style={{ color: currentScreen === 'Home' ? '#68D391' : '#fff', fontSize: 11, marginTop: 4 }}>Página inicial</Text>
+      {currentScreen === 'Home' && <View style={{ width: 50, height: 2, backgroundColor: '#68D391', marginTop: 4 }} />}
+    </TouchableOpacity>
+    
+    {/* Área clicável para "Meet", cobrindo metade da barra */}
+    <TouchableOpacity onPress={() => navigation.navigate('VetMeet')} style={{ alignItems: 'center', flex: 1 }}>
+      <View style={{ borderWidth: currentScreen === 'VetMeet' ? 2 : 0, borderColor: '#68D391', borderRadius: 15, padding: 4 }}>
+        <Ionicons name="people-outline" size={26} color={currentScreen === 'VetMeet' ? '#68D391' : '#fff'} />
+      </View>
+      <Text style={{ color: currentScreen === 'VetMeet' ? '#68D391' : '#fff', fontSize: 11, marginTop: 4 }}>Meet</Text>
+      {currentScreen === 'VetMeet' && <View style={{ width: 50, height: 2, backgroundColor: '#68D391', marginTop: 4 }} />}
+    </TouchableOpacity>
 
-          if (route.name === 'Home') {
-            iconName = 'home-outline';
-          } else if (route.name === 'Life') {
-            iconName = 'heart-outline';
-          }
+  </View>
+</View>
 
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: '#68D391',
-        tabBarInactiveTintColor: '#fff',
-        tabBarStyle: {
-          backgroundColor: '#1A1A1A',
-          borderTopWidth: 0,
-          justifyContent: 'center',
-        },
-        tabBarItemStyle: {
-          flex: 1,
-          alignItems: 'center',
-        },
-        tabBarLabelStyle: {
-          display: 'none', // Remove o texto dos ícones para centralizar melhor
-        },
-      })}
-    >
-      <Tab.Screen name="Home" component={Home} options={{ headerShown: false }} />
-      <Tab.Screen name="Life" component={LifeScreen} options={{ headerShown: false }} />
-    </Tab.Navigator>
+  );
+}
+
+// Função para encapsular Home e VetMeet em um Stack Navigator
+function HomeStack() {
+  const navigation = useNavigation();
+  const currentScreen = useNavigationState(state => {
+    const route = state.routes[state.index];
+    return route.name;
+  });
+
+  return (
+    <View style={{ flex: 1 }}>
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          gestureEnabled: true,
+          gestureDirection: 'horizontal',
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="VetMeet" component={VetMeet} />
+      </Stack.Navigator>
+      {/* Barra de navegação personalizada fixa na parte inferior */}
+      <CustomTabBar navigation={navigation} currentScreen={currentScreen} />
+    </View>
   );
 }
 
@@ -61,19 +78,18 @@ export default function App() {
       <Stack.Navigator
         initialRouteName="Loading"
         screenOptions={{
-          gestureEnabled: true, // Habilita o gesto de deslizar para voltar
-          gestureDirection: 'horizontal', // Configura o gesto para direção horizontal
-          headerShown: false, // Oculta o cabeçalho por padrão
+          gestureEnabled: true,
+          gestureDirection: 'horizontal',
+          headerShown: false,
         }}
       >
         <Stack.Screen name="Loading" component={LoadingScreen} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Cadastro" component={CadastroScreen} />
-        <Stack.Screen name="Home" component={MainTabs} />
-        
-        {/* Colocando VetMeet no Stack Navigator para compatibilidade do gesto de voltar */}
-        <Stack.Screen name="VetMeet" component={VetMeet} />
+
+        {/* Encapsulamento de Home e VetMeet em um Stack para compatibilidade do gesto */}
+        <Stack.Screen name="HomeTabs" component={HomeStack} />
 
         {/* Outras telas */}
         <Stack.Screen name="Appointment" component={AppointmentScreen} />

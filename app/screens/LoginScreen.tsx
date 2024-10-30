@@ -33,7 +33,7 @@ export default function LoginScreen() {
       await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
       navigation.reset({
         index: 0,
-        routes: [{ name: 'Home' }],
+        routes: [{ name: 'HomeTabs' }],
       });
     } catch (error) {
       console.error('Erro ao fazer login:', error);
