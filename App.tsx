@@ -21,18 +21,18 @@ function CustomTabBar({ navigation, currentScreen }) {
     <View style={{ backgroundColor: '#1A1A1A', borderTopWidth: 1, borderTopColor: '#333', position: 'absolute', bottom: 0, left: 0, right: 0, paddingBottom: 15, paddingTop: 0 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 5 }}>
         
-        {/* Área clicável para "Página inicial", cobrindo metade da barra */}
+        {/* Área clicável para "Página inicial" */}
         <TouchableOpacity onPress={() => navigation.navigate('Home')} style={{ alignItems: 'center', flex: 1 }}>
-          <View style={{ borderWidth: currentScreen === 'Home' ? 2 : 0, borderColor: '#68D391', borderRadius: 15, padding: 1 }}>
+          <View style={{ borderWidth: currentScreen === 'Home' ? 2 : 0, borderColor: '#68D391', borderRadius: 15, padding: 4 }}>
             <Ionicons name="home-outline" size={25} color={currentScreen === 'Home' ? '#68D391' : '#fff'} />
           </View>
           <Text style={{ color: currentScreen === 'Home' ? '#68D391' : '#fff', fontSize: 12, marginTop: 4 }}>Página inicial</Text>
           {currentScreen === 'Home' && <View style={{ width: 50, height: 3, backgroundColor: '#68D391', marginTop: 4 }} />}
         </TouchableOpacity>
         
-        {/* Área clicável para "Meet", cobrindo metade da barra */}
+        {/* Área clicável para "Meet" */}
         <TouchableOpacity onPress={() => navigation.navigate('VetMeet')} style={{ alignItems: 'center', flex: 1 }}>
-          <View style={{ borderWidth: currentScreen === 'VetMeet' ? 2 : 0, borderColor: '#68D391', borderRadius: 15, padding: 1 }}>
+          <View style={{ borderWidth: currentScreen === 'VetMeet' ? 2 : 0, borderColor: '#68D391', borderRadius: 15, padding: 4 }}>
             <Ionicons name="people-outline" size={25} color={currentScreen === 'VetMeet' ? '#68D391' : '#fff'} />
           </View>
           <Text style={{ color: currentScreen === 'VetMeet' ? '#68D391' : '#fff', fontSize: 12, marginTop: 4 }}>Meet</Text>
