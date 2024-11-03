@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, SafeAreaView, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FIRESTORE_DB, FIREBASE_STORAGE } from '../Firebase';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { collection, getDocs, query, limit } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
 import styles from '../styles/LifeScreenStyles';
@@ -45,7 +45,7 @@ const LifeScreen = ({ navigation }) => {
                 }
 
                 return {
-                    id: Number(doc.id), // Certifique-se de que o ID seja um número
+                    id: Number(doc.id),
                     ...data,
                     imageUrl: imageUrl || 'https://via.placeholder.com/60'
                 };
@@ -69,7 +69,7 @@ const LifeScreen = ({ navigation }) => {
     };
 
     const handleViewHistory = (animalId) => {
-        navigation.navigate('AnimalHistory', { animalId: Number(animalId) }); // Certifique-se de que o animalId seja um número
+        navigation.navigate('AnimalHistory', { animalId: Number(animalId) });
     };
 
     const renderAnimalItem = ({ item }) => {
@@ -137,7 +137,6 @@ const LifeScreen = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             <Header
                 title="Animais"
-                icon="arrow-back"
                 onBackPress={() => navigation.goBack()}
             />
 

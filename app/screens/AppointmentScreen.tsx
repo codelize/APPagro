@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Animated, TextInput, SafeAreaView, TouchableOpacity, ActivityIndicator } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FIRESTORE_DB } from '../Firebase';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { collection, getDocs, query } from 'firebase/firestore';
 import styles from '../styles/AppointmentScreenStyles';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
@@ -92,7 +92,6 @@ const AppointmentScreen = () => {
     <SafeAreaView style={styles.container}>
       <Header
         title="Consultas"
-        icon="arrow-back"
         onBackPress={() => navigation.goBack()}
       />
 

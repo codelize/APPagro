@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Swiper from 'react-native-deck-swiper';
 import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FIRESTORE_DB, FIREBASE_STORAGE } from '../Firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
 import styles from '../styles/VetMeetStyles';
-import Header from '../components/Header'; // Importa o componente Header
+import Header from '../components/Header';
 
 export default function VetMeet() {
   const navigation = useNavigation();
@@ -128,7 +128,10 @@ export default function VetMeet() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="Meet" onBackPress={() => navigation.goBack()} />
+      {/* Header fixo com zIndex para manter o botão de voltar sempre funcional */}
+      <View style={{ zIndex: 10 }}>
+        <Header title="Meet" onBackPress={() => navigation.goBack()} />
+      </View>
 
       <Text style={styles.subHeader}>Conheça profissionais da sua região</Text>
 
@@ -145,57 +148,59 @@ export default function VetMeet() {
           </TouchableOpacity>
         </View>
       ) : (
-        <Swiper
-          cards={veterinarios}
-          renderCard={(veterinario) =>
-            veterinario ? (
-              <View style={styles.veterinarioCard}>
-                <TouchableOpacity onPress={() => verDetalhes(veterinario)}>
-                  <Image source={{ uri: veterinario.foto }} style={styles.veterinarioFoto} />
-                  <View style={styles.infoContainer}>
-                    <Text style={styles.veterinarioNome}>
-                      {veterinario.nome}, {veterinario.idade}
-                    </Text>
-                    <Text style={styles.veterinarioEspecialidade}>{veterinario.especialidade}</Text>
-                    <Text style={styles.veterinarioDetalhes}>
-                      <Ionicons name="location-outline" size={14} color="#8FD3A7" /> {veterinario.localizacao}{' '}
-                      {'\n'}
-                      <Ionicons name="walk-outline" size={14} color="#8FD3A7" /> {calculateDistance()}
-                    </Text>
-                    <Text style={styles.experienciaText}>{veterinario.experiencia}</Text>
-                    <View style={styles.avaliacaoContainer}>
-                      <Ionicons name="star" size={14} color="#FFD700" />
-                      <Text style={styles.avaliacaoText}>{veterinario.avaliacao}</Text>
+        <View style={{ flex: 1, marginTop: -150 }}>
+          <Swiper
+            cards={veterinarios}
+            renderCard={(veterinario) =>
+              veterinario ? (
+                <View style={styles.veterinarioCard}>
+                  <TouchableOpacity onPress={() => verDetalhes(veterinario)}>
+                    <Image source={{ uri: veterinario.foto }} style={styles.veterinarioFoto} />
+                    <View style={styles.infoContainer}>
+                      <Text style={styles.veterinarioNome}>
+                        {veterinario.nome}, {veterinario.idade}
+                      </Text>
+                      <Text style={styles.veterinarioEspecialidade}>{veterinario.especialidade}</Text>
+                      <Text style={styles.veterinarioDetalhes}>
+                        <Ionicons name="location-outline" size={14} color="#8FD3A7" /> {veterinario.localizacao}{' '}
+                        {'\n'}
+                        <Ionicons name="walk-outline" size={14} color="#8FD3A7" /> {calculateDistance()}
+                      </Text>
+                      <Text style={styles.experienciaText}>{veterinario.experiencia}</Text>
+                      <View style={styles.avaliacaoContainer}>
+                        <Ionicons name="star" size={14} color="#FFD700" />
+                        <Text style={styles.avaliacaoText}>{veterinario.avaliacao}</Text>
+                      </View>
                     </View>
-                  </View>
-                </TouchableOpacity>
-                <View style={styles.buttonContainer}>
-                  {swipedCards.length > 0 && (
-                    <TouchableOpacity onPress={undoLastSwipe} style={styles.redoButton}>
-                      <Ionicons name="arrow-undo-outline" size={20} color="#fff" />
+                  </TouchableOpacity>
+                  <View style={styles.buttonContainer}>
+                    {swipedCards.length > 0 && (
+                      <TouchableOpacity onPress={undoLastSwipe} style={styles.redoButton}>
+                        <Ionicons name="arrow-undo-outline" size={20} color="#fff" />
+                      </TouchableOpacity>
+                    )}
+                    <TouchableOpacity style={styles.contactButton}>
+                      <Ionicons name="call-outline" size={20} color="#fff" />
+                      <Text style={styles.buttonText}>Contato</Text>
                     </TouchableOpacity>
-                  )}
-                  <TouchableOpacity style={styles.contactButton}>
-                    <Ionicons name="call-outline" size={20} color="#fff" />
-                    <Text style={styles.buttonText}>Contato</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.scheduleButton}>
-                    <Ionicons name="calendar-outline" size={20} color="#fff" />
-                    <Text style={styles.buttonText}>Agendar</Text>
-                  </TouchableOpacity>
+                    <TouchableOpacity style={styles.scheduleButton}>
+                      <Ionicons name="calendar-outline" size={20} color="#fff" />
+                      <Text style={styles.buttonText}>Agendar</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
-            ) : null
-          }
-          onSwiped={(cardIndex) => handleSwipedCard(cardIndex)}
-          onSwipedAll={handleSwipedAll}
-          cardIndex={0}
-          backgroundColor="transparent"
-          stackSize={3}
-          stackSeparation={-25}
-          disableBottomSwipe
-          disableTopSwipe
-        />
+              ) : null
+            }
+            onSwiped={(cardIndex) => handleSwipedCard(cardIndex)}
+            onSwipedAll={handleSwipedAll}
+            cardIndex={0}
+            backgroundColor="transparent"
+            stackSize={3}
+            stackSeparation={-25}
+            disableBottomSwipe
+            disableTopSwipe
+          />
+        </View>
       )}
     </SafeAreaView>
   );
