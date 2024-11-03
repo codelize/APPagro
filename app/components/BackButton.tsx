@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const BackButton = ({ onPress }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.buttonContainer}>
-      <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+      <Ionicons name="chevron-back" size={24} color="#FFFFFF" />
     </TouchableOpacity>
   );
 };
@@ -14,7 +14,8 @@ const BackButton = ({ onPress }) => {
 const styles = {
   buttonContainer: {
     padding: 10, // Ajusta a área de toque
-    zIndex: 10
+    zIndex: 10,
+    
   },
 };
 
