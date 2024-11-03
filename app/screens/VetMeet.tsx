@@ -148,7 +148,7 @@ export default function VetMeet() {
           </TouchableOpacity>
         </View>
       ) : (
-        <View style={{ flex: 1, marginTop: -150 }}>
+        <View style={{ flex: 1, marginTop: -200 }}>
           <Swiper
             cards={veterinarios}
             renderCard={(veterinario) =>
@@ -196,7 +196,7 @@ export default function VetMeet() {
             cardIndex={0}
             backgroundColor="transparent"
             stackSize={3}
-            stackSeparation={-25}
+            stackSeparation={25}
             disableBottomSwipe
             disableTopSwipe
           />
