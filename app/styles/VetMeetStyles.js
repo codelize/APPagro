@@ -7,29 +7,11 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: '#1A1A1A',
   },
-  headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 50,
-    zIndex: 2,
-  },
-  backIcon: {
-    position: 'absolute',
-    left: 20,
-    zIndex: 1,
-  },
-  headerTitle: {
-    color: '#EAEAEA',
-    fontSize: 28,
-    fontWeight: 'bold',
-  },
   subHeader: {
     color: '#8FD3A7',
     fontSize: 16,
     textAlign: 'center',
     marginVertical: 10,
-    zIndex: 2,
   },
   veterinarioCard: {
     backgroundColor: '#333',
@@ -152,3 +134,4 @@ export default StyleSheet.create({
     marginLeft: 5,
   },
 });
+  

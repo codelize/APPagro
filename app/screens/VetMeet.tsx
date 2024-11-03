@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, Image, TouchableOpacity, Dimensions, Alert, ActivityIndicator } from 'react-native';
+import { SafeAreaView, View, Text, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Swiper from 'react-native-deck-swiper';
@@ -9,8 +9,7 @@ import { FIRESTORE_DB, FIREBASE_STORAGE } from '../Firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
 import styles from '../styles/VetMeetStyles';
-
-const { width } = Dimensions.get('window');
+import Header from '../components/Header'; // Importa o componente Header
 
 export default function VetMeet() {
   const navigation = useNavigation();
@@ -21,7 +20,6 @@ export default function VetMeet() {
   const [swipedCards, setSwipedCards] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Função para buscar os dados dos veterinários do Firebase
   const fetchVeterinarios = async () => {
     setLoading(true);
     try {
@@ -86,14 +84,14 @@ export default function VetMeet() {
     setUserLocation(location.coords);
   };
 
-  const calculateDistance = (vetLocation) => {
+  const calculateDistance = () => {
     if (!userLocation) return 'N/A';
     const randomDistance = Math.floor(Math.random() * 10) + 1;
     return `${randomDistance} km`;
   };
 
   const toggleFavorito = async (id) => {
-    let novosFavoritos = favoritos.includes(id)
+    const novosFavoritos = favoritos.includes(id)
       ? favoritos.filter((favId) => favId !== id)
       : [...favoritos, id];
 
@@ -130,12 +128,8 @@ export default function VetMeet() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={28} color="#fff" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Meet</Text>
-      </View>
+      <Header title="Meet" onBackPress={() => navigation.goBack()} />
+
       <Text style={styles.subHeader}>Conheça profissionais da sua região</Text>
 
       {loading ? (
@@ -166,7 +160,7 @@ export default function VetMeet() {
                     <Text style={styles.veterinarioDetalhes}>
                       <Ionicons name="location-outline" size={14} color="#8FD3A7" /> {veterinario.localizacao}{' '}
                       {'\n'}
-                      <Ionicons name="walk-outline" size={14} color="#8FD3A7" /> {calculateDistance(veterinario.localizacao)}
+                      <Ionicons name="walk-outline" size={14} color="#8FD3A7" /> {calculateDistance()}
                     </Text>
                     <Text style={styles.experienciaText}>{veterinario.experiencia}</Text>
                     <View style={styles.avaliacaoContainer}>
@@ -196,11 +190,11 @@ export default function VetMeet() {
           onSwiped={(cardIndex) => handleSwipedCard(cardIndex)}
           onSwipedAll={handleSwipedAll}
           cardIndex={0}
-          backgroundColor={'#1A1A1A'}
+          backgroundColor="transparent"
           stackSize={3}
-          stackSeparation={15}
-          disableBottomSwipe={true} // Desativa swipe inferior
-          disableTopSwipe={true} // Desativa swipe superior
+          stackSeparation={-25}
+          disableBottomSwipe
+          disableTopSwipe
         />
       )}
     </SafeAreaView>

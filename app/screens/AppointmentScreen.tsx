@@ -5,6 +5,7 @@ import { FIRESTORE_DB } from '../Firebase';
 import { collection, getDocs, query } from 'firebase/firestore';
 import styles from '../styles/AppointmentScreenStyles';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
+import Header from '../components/Header';
 
 interface BovineData {
   id: string;
@@ -89,12 +90,11 @@ const AppointmentScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={28} color="#fff" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Consultas</Text>
-      </View>
+      <Header
+        title="Consultas"
+        icon="arrow-back"
+        onBackPress={() => navigation.goBack()}
+      />
 
       <TextInput
         style={styles.searchBar}

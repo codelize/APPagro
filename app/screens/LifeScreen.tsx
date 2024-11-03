@@ -5,6 +5,7 @@ import { FIRESTORE_DB, FIREBASE_STORAGE } from '../Firebase';
 import { collection, getDocs, query, limit } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
 import styles from '../styles/LifeScreenStyles';
+import Header from '../components/Header';
 
 const formatDate = (timestamp) => {
     if (!timestamp) return '';
@@ -139,12 +140,11 @@ const LifeScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.headerContainer}>
-                <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
-                    <Ionicons name="arrow-back" size={28} color="#fff" />
-                </TouchableOpacity>
-                <Text style={styles.headerTitle}>Animais</Text>
-            </View>
+            <Header
+                title="Animais"
+                icon="arrow-back"
+                onBackPress={() => navigation.goBack()}
+            />
 
             {loading ? (
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

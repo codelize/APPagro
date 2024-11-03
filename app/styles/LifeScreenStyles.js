@@ -6,24 +6,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#121212',
     paddingHorizontal: 16,
   },
-  headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 50,
-    zIndex: 2,
-  },
-  backIcon: {
-    position: 'absolute',
-    left: 20,
-    zIndex: 1,
-    padding: 8,
-  },
-  headerTitle: {
-    color: '#EAEAEA',
-    fontSize: 28,
-    fontWeight: 'bold',
-  },
   list: {
     paddingBottom: 80,
   },
@@ -78,11 +60,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#68D391',
     borderRadius: 5,
     alignItems: 'center',
-},
-historyButtonText: {
+  },
+  historyButtonText: {
     color: '#fff',
     fontWeight: 'bold',
-},
+  },
 });
 
 export default styles;

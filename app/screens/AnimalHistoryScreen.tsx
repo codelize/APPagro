@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import React, { useEffect, useState, FC } from 'react';
+import { View, Text, ScrollView, ActivityIndicator, SafeAreaView } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { AnimalHistoryScreenStyles as styles } from '../styles/AnimalHistoryScreen.styles';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Header from '../components/Header';
+import styles from '../styles/AnimalHistoryScreen.styles';
 
 type AnimalHistoryRouteParams = {
   AnimalHistory: {
@@ -9,23 +11,42 @@ type AnimalHistoryRouteParams = {
   };
 };
 
-const AnimalHistoryScreen = () => {
-  const route = useRoute<RouteProp<AnimalHistoryRouteParams, 'AnimalHistory'>>();
-  const { animalId } = route.params;
-  const [historyData, setHistoryData] = useState([]);
+type HistoryEntry = {
+  date: string;
+  status: string;
+  notes: string;
+};
+
+const formatDate = (dateString: string): string => {
+  return new Date(dateString).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
+};
+
+const HistoryCard: FC<{ entry: HistoryEntry }> = ({ entry }) => (
+  <View style={styles.historyCard}>
+    <Text style={styles.dateText}>Data: {formatDate(entry.date)}</Text>
+    <Text style={styles.statusText}>Status: {entry.status}</Text>
+    <Text style={styles.notesText}>Observações: {entry.notes}</Text>
+  </View>
+);
+
+const AnimalHistoryScreen: FC<{ navigation: any }> = ({ navigation }) => {
+  const { params } = useRoute<RouteProp<AnimalHistoryRouteParams, 'AnimalHistory'>>();
+  const { animalId } = params;
+  const [historyData, setHistoryData] = useState<HistoryEntry[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulação de dados de histórico; substitua pela sua lógica de busca real
     const fetchHistory = async () => {
       try {
-        const data = [
+        const data: HistoryEntry[] = [
           { date: '2024-10-01', status: 'Saudável', notes: 'Animal em ótimo estado.' },
           { date: '2024-09-20', status: 'Febre leve', notes: 'Recebeu tratamento e se recuperou.' },
-          // Outros registros...
         ];
         setHistoryData(data);
       } catch (error) {
-        console.error(error);
+        console.error('Erro ao buscar histórico:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -33,16 +54,23 @@ const AnimalHistoryScreen = () => {
   }, [animalId]);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Histórico do Animal</Text>
-      {historyData.map((entry, index) => (
-        <View key={index} style={styles.historyCard}>
-          <Text>Data: {entry.date}</Text>
-          <Text>Status: {entry.status}</Text>
-          <Text>Observações: {entry.notes}</Text>
-        </View>
-      ))}
-    </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <Header
+        title="Histórico do Animal"
+        icon="arrow-back"
+        onBackPress={() => navigation.goBack()}
+      />
+
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {loading ? (
+          <ActivityIndicator size="large" color="#FFFFFF" style={styles.loader} />
+        ) : historyData.length > 0 ? (
+          historyData.map((entry, index) => <HistoryCard key={index} entry={entry} />)
+        ) : (
+          <Text style={styles.noDataText}>Não há histórico disponível para este animal.</Text>
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
