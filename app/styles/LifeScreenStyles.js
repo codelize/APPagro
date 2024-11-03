@@ -6,8 +6,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#121212',
     paddingHorizontal: 16,
   },
-  list: {
-    paddingBottom: 80,
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   card: {
     backgroundColor: '#1E1E1E',
@@ -38,21 +40,18 @@ const styles = StyleSheet.create({
     color: '#A9A9A9',
     marginVertical: 2,
   },
-  healthy: {
-    color: '#4CAF50',
-  },
-  unhealthy: {
-    color: '#FF5252',
-  },
-  expandButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 8,
-    alignSelf: 'flex-end', // Alinha o botão à direita
+  icon: {
+    position: 'absolute',
+    bottom: 0,
+    right: 8,
   },
   expandedSection: {
     marginTop: 8,
     paddingTop: 8,
+  },
+  boldText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
   },
   historyButton: {
     marginTop: 10,
@@ -64,6 +63,26 @@ const styles = StyleSheet.create({
   historyButtonText: {
     color: '#fff',
     fontWeight: 'bold',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    color: '#FF4C4C',
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  reloadButton: {
+    backgroundColor: '#1E1E1E',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  reloadText: {
+    color: '#FFFFFF',
+    fontSize: 16,
   },
 });
 

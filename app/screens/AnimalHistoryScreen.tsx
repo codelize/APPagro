@@ -1,31 +1,43 @@
 import React, { useEffect, useState, FC } from 'react';
 import { View, Text, ScrollView, ActivityIndicator, SafeAreaView } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { FIRESTORE_DB } from '../Firebase';
 import Header from '../components/Header';
 import styles from '../styles/AnimalHistoryScreen.styles';
 
 type AnimalHistoryRouteParams = {
   AnimalHistory: {
-    animalId: string;
+    animalId: number;
   };
 };
 
 type HistoryEntry = {
-  date: string;
-  status: string;
-  notes: string;
+  previousConsult: string;
+  consultDate: any; // Permite que o campo seja um Timestamp ou uma string
+  identification: string;
+  reason: string;
+  result: string;
+  treatment: string;
+  vetResponsible: string;
 };
 
-const formatDate = (dateString: string): string => {
-  return new Date(dateString).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
+const formatDate = (date: any): string => {
+  if (date instanceof Date) {
+    return date.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
+  } else if (date?.toDate) { // Verifica se é um Timestamp do Firestore
+    return date.toDate().toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
+  }
+  return 'Data Inválida';
 };
 
 const HistoryCard: FC<{ entry: HistoryEntry }> = ({ entry }) => (
   <View style={styles.historyCard}>
-    <Text style={styles.dateText}>Data: {formatDate(entry.date)}</Text>
-    <Text style={styles.statusText}>Status: {entry.status}</Text>
-    <Text style={styles.notesText}>Observações: {entry.notes}</Text>
+    <Text style={styles.dateText}>Data da Consulta: {formatDate(entry.consultDate)}</Text>
+    <Text style={styles.statusText}>Motivo da Consulta: {entry.reason}</Text>
+    <Text style={styles.notesText}>Resultado do Tratamento: {entry.result}</Text>
+    <Text style={styles.notesText}>Tratamento Aplicado: {entry.treatment}</Text>
+    <Text style={styles.notesText}>Veterinário Responsável: {entry.vetResponsible}</Text>
   </View>
 );
 
@@ -37,12 +49,36 @@ const AnimalHistoryScreen: FC<{ navigation: any }> = ({ navigation }) => {
 
   useEffect(() => {
     const fetchHistory = async () => {
+      setLoading(true);
       try {
-        const data: HistoryEntry[] = [
-          { date: '2024-10-01', status: 'Saudável', notes: 'Animal em ótimo estado.' },
-          { date: '2024-09-20', status: 'Febre leve', notes: 'Recebeu tratamento e se recuperou.' },
-        ];
-        setHistoryData(data);
+        console.log(`Buscando histórico para o animalId: ${animalId}`);
+
+        const historyQuery = query(
+          collection(FIRESTORE_DB, 'history'),
+          where('animalId', '==', animalId) // Certifique-se de que o animalId seja um número
+        );
+        const querySnapshot = await getDocs(historyQuery);
+
+        if (querySnapshot.empty) {
+          console.log('Nenhum histórico encontrado para este animal.');
+          setHistoryData([]);
+        } else {
+          const history = querySnapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+              previousConsult: data['Consulta Anterior'] || '',
+              consultDate: data['Data da Consulta'] || '',
+              identification: data['Identificação'] || '',
+              reason: data['Motivo da Consulta'] || '',
+              result: data['Resultado do Tratamento'] || '',
+              treatment: data['Tratamento Aplicado'] || '',
+              vetResponsible: data['Veterinário Responsável'] || '',
+            };
+          });
+
+          console.log('Histórico encontrado:', history);
+          setHistoryData(history);
+        }
       } catch (error) {
         console.error('Erro ao buscar histórico:', error);
       } finally {

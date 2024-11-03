@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, SafeAreaView, TouchableOpacity, Image, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, FlatList, SafeAreaView, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FIRESTORE_DB, FIREBASE_STORAGE } from '../Firebase';
 import { collection, getDocs, query, limit } from 'firebase/firestore';
@@ -45,7 +45,7 @@ const LifeScreen = ({ navigation }) => {
                 }
 
                 return {
-                    id: doc.id,
+                    id: Number(doc.id), // Certifique-se de que o ID seja um número
                     ...data,
                     imageUrl: imageUrl || 'https://via.placeholder.com/60'
                 };
@@ -69,7 +69,7 @@ const LifeScreen = ({ navigation }) => {
     };
 
     const handleViewHistory = (animalId) => {
-        navigation.navigate('AnimalHistory', { animalId });
+        navigation.navigate('AnimalHistory', { animalId: Number(animalId) }); // Certifique-se de que o animalId seja um número
     };
 
     const renderAnimalItem = ({ item }) => {
@@ -97,38 +97,33 @@ const LifeScreen = ({ navigation }) => {
                         name={isExpanded ? 'chevron-up-outline' : 'chevron-down-outline'}
                         size={24}
                         color="#B0B0B0"
-                        style={{
-                            position: 'absolute',
-                            bottom: 0,
-                            right: 8,
-                        }}
+                        style={styles.icon}
                     />
                 </View>
 
                 {isExpanded && (
                     <View style={styles.expandedSection}>
                         <Text style={styles.info}>
-                            <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>Nascimento: </Text>
+                            <Text style={styles.boldText}>Nascimento: </Text>
                             {formatDate(item.birthDate)}
                         </Text>
                         <Text style={styles.info}>
-                            <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>Peso: </Text>
+                            <Text style={styles.boldText}>Peso: </Text>
                             {item.weight}
                         </Text>
                         <Text style={styles.info}>
-                            <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>Última Consulta: </Text>
+                            <Text style={styles.boldText}>Última Consulta: </Text>
                             {formatDate(item.lastConsultation)}
                         </Text>
                         <Text style={styles.info}>
-                            <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>Localização: </Text>
+                            <Text style={styles.boldText}>Localização: </Text>
                             {item.location}
                         </Text>
                         <Text style={styles.info}>
-                            <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>Valor de Mercado: </Text>
+                            <Text style={styles.boldText}>Valor de Mercado: </Text>
                             {formatCurrency(item.marketValue)}
                         </Text>
 
-                        {/* Botão "Ver histórico" */}
                         <TouchableOpacity onPress={() => handleViewHistory(item.id)} style={styles.historyButton}>
                             <Text style={styles.historyButtonText}>Ver histórico</Text>
                         </TouchableOpacity>
@@ -147,7 +142,7 @@ const LifeScreen = ({ navigation }) => {
             />
 
             {loading ? (
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={styles.centered}>
                     <ActivityIndicator size="large" color="#fff" />
                 </View>
             ) : error ? (
@@ -161,8 +156,8 @@ const LifeScreen = ({ navigation }) => {
                 <FlatList
                     data={animalStock}
                     renderItem={renderAnimalItem}
-                    keyExtractor={(item) => item.id}
-                    contentContainerStyle={{ flexGrow: 0 }}
+                    keyExtractor={(item) => String(item.id)}
+                    contentContainerStyle={styles.listContainer}
                 />
             )}
         </SafeAreaView>
