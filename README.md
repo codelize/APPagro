@@ -27,7 +27,7 @@ Siga os passos abaixo para configurar e executar o projeto em seu ambiente local
          senha: *SenhaAdmin12@*
 
 
-                                        💡 
+ 💡 
                                      
 O aplicativo Agro foi desenvolvido para auxiliar na gestão de animais em fazendas, 
 oferecendo monitoramento de saúde e acesso ao histórico de cada animal. Ele também 
@@ -38,6 +38,7 @@ e acessar dados em tempo real sobre animais, consultas e profissionais.
 A navegação é prática e intuitiva: o usuário pode acessar rapidamente as principais 
 telas (Home e Meet) pela barra inferior e retornar à tela anterior com um gesto de 
 arrastar ou clicando no botão de voltar. 
+
 
 Cada tela possui funcionalidades específicas e bem organizadas:
 
@@ -52,7 +53,7 @@ Vidas: Lista todos os animais com informações básicas e a possibilidade de ex
 para ver o histórico único de cada animal.
 
 Experiência do Usuário (UX)
-Pensando na usabilidade, o app exibe mensagens de erro claras e destaca os campos que 
+Pensando na usabilidade, o app exibe loadings e mensagens de erro claras e destaca os campos que 
 precisam de correção, ajudando o usuário a preencher as informações corretamente. 
 Indicadores visuais, como bordas em vermelho e mensagens específicas, orientam onde 
 ajustar os dados.
