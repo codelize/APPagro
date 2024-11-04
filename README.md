@@ -29,11 +29,11 @@ Siga os passos abaixo para configurar e executar o projeto em seu ambiente local
 
                                         💡 
                                      
-        O aplicativo Agro foi desenvolvido para auxiliar na gestão de animais em fazendas, 
-        oferecendo monitoramento de saúde e acesso ao histórico de cada animal. Ele também 
-        recomenda veterinários próximos, ajudando os produtores rurais a terem informações 
-        essenciais sempre acessíveis. Com integração ao Firebase, o app permite armazenar 
-        e acessar dados em tempo real sobre animais, consultas e profissionais.
+O aplicativo Agro foi desenvolvido para auxiliar na gestão de animais em fazendas, 
+oferecendo monitoramento de saúde e acesso ao histórico de cada animal. Ele também 
+recomenda veterinários próximos, ajudando os produtores rurais a terem informações 
+essenciais sempre acessíveis. Com integração ao Firebase, o app permite armazenar 
+e acessar dados em tempo real sobre animais, consultas e profissionais.
 
 A navegação é prática e intuitiva: o usuário pode acessar rapidamente as principais 
 telas (Home e Meet) pela barra inferior e retornar à tela anterior com um gesto de 
