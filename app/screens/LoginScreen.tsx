@@ -4,7 +4,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../Firebase';
 import { useNavigation } from '@react-navigation/native';
 import Header from '../components/Header';
-import styles from '../styles/LoginScreenStyles.js';
+import styles from '../styles/LoginScreenStyles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function LoginScreen() {

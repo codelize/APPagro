@@ -4,7 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import CheckBox from 'expo-checkbox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../components/Header';
-import styles from '../styles/RegistrationScreenStyles.js';
+import styles from '../styles/RegistrationScreenStyles';
 
 export default function RegistrationScreen({ navigation }) {
   const [primeiroNome, setPrimeiroNome] = useState('');
