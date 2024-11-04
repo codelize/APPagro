@@ -99,8 +99,8 @@ export default function VetMeet() {
     await AsyncStorage.setItem('veterinariosFavoritos', JSON.stringify(novosFavoritos));
   };
 
-  const verDetalhes = (veterinario) => {
-    navigation.navigate('VeterinarioDetails', { veterinario });
+  const handleImagePress = () => {
+    // Função vazia apenas para capturar o toque
   };
 
   const recarregarVeterinarios = () => {
@@ -128,7 +128,6 @@ export default function VetMeet() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header fixo com zIndex para manter o botão de voltar sempre funcional */}
       <View style={{ zIndex: 10 }}>
         <Header title="Meet" onBackPress={() => navigation.goBack()} />
       </View>
@@ -154,7 +153,7 @@ export default function VetMeet() {
             renderCard={(veterinario) =>
               veterinario ? (
                 <View style={styles.veterinarioCard}>
-                  <TouchableOpacity onPress={() => verDetalhes(veterinario)}>
+                  <TouchableOpacity onPress={handleImagePress} activeOpacity={0.8}>
                     <Image source={{ uri: veterinario.foto }} style={styles.veterinarioFoto} />
                     <View style={styles.infoContainer}>
                       <Text style={styles.veterinarioNome}>
