@@ -22,8 +22,8 @@ Siga os passos abaixo para configurar e executar o projeto em seu ambiente local
 
 
          > Nota: 
-         Para se logar, utilize as seguintes credenciais que estão registradas no Firebase. <br>
-         usuário: *adminuser@gmail.com* <br>
+         Para se logar, utilize as seguintes credenciais que estão registradas no Firebase. 
+         usuário: *adminuser@gmail.com* 
          senha: *SenhaAdmin12@*
 
 
@@ -36,9 +36,10 @@ Siga os passos abaixo para configurar e executar o projeto em seu ambiente local
         e acessar dados em tempo real sobre animais, consultas e profissionais.
 
 A navegação é prática e intuitiva: o usuário pode acessar rapidamente as principais 
-        telas (Home e Meet) pela barra inferior e retornar à tela anterior com um gesto de 
-        arrastar ou clicando no botão de voltar. 
-        Cada tela possui funcionalidades específicas e bem organizadas:
+telas (Home e Meet) pela barra inferior e retornar à tela anterior com um gesto de 
+arrastar ou clicando no botão de voltar. 
+
+Cada tela possui funcionalidades específicas e bem organizadas:
 
 Home: Exibe avisos recentes e especialistas favoritos, além de permitir o acesso a
 outras telas (Meet, Consultas e Vidas) e o logoff.
