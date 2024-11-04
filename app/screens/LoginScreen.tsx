@@ -32,7 +32,7 @@ export default function LoginScreen() {
 
     try {
       await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
-      navigation.navigate('HomeTabs'); // Usar navigate ao invés de reset
+      navigation.navigate('HomeTabs');
     } catch (error) {
       console.error('Erro ao fazer login:', error);
       Alert.alert('Erro de login', 'Usuário ou senha incorretos. Tente novamente.');
@@ -43,7 +43,6 @@ export default function LoginScreen() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
-          {/* Usando o componente Header com o botão de voltar */}
           <Header title="Login" onBackPress={() => navigation.goBack()} />
 
           <TextInput
@@ -51,27 +50,33 @@ export default function LoginScreen() {
             placeholder="E-mail"
             placeholderTextColor="#aaa"
             value={email}
-            onChangeText={setEmail}
+            onChangeText={text => {
+              setEmail(text);
+              setErrors({ ...errors, email: '' });
+            }}
             autoCapitalize="none"
+            keyboardType="email-address"
           />
-          {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
+          {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
 
-          <View style={styles.passwordContainer}>
+          <View style={[styles.passwordContainer, errors.password ? styles.inputError : null]}>
             <TextInput
-              style={[styles.inputPassword, errors.password ? styles.inputError : null]}
+              style={styles.inputPassword}
               placeholder="Senha"
               placeholderTextColor="#aaa"
               value={password}
-              onChangeText={setPassword}
+              onChangeText={text => {
+                setPassword(text);
+                setErrors({ ...errors, password: '' });
+              }}
               secureTextEntry={!showPassword}
+              textContentType="oneTimeCode"
             />
             <TouchableOpacity style={styles.showPasswordButton} onPress={() => setShowPassword(!showPassword)}>
               <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={20} color="#68D391" />
             </TouchableOpacity>
           </View>
-          {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
-
-          {errors.general ? <Text style={styles.errorText}>{errors.general}</Text> : null}
+          {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
 
           <TouchableOpacity style={styles.btn} onPress={handleLogin}>
             <Text style={styles.btnText}>Entrar</Text>
@@ -80,8 +85,6 @@ export default function LoginScreen() {
           <TouchableOpacity onPress={() => Alert.alert('Esqueci minha senha', 'Funcionalidade em desenvolvimento')}>
             <Text style={styles.forgotPassword}>Esqueceu sua senha?</Text>
           </TouchableOpacity>
-
-          <View style={styles.horizontalLine} />
 
           <View style={styles.signupContainer}>
             <Text style={styles.signupText}>Não tem uma conta?</Text>

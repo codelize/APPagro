@@ -9,23 +9,11 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
     paddingHorizontal: 20,
   },
-  backIcon: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
-  },
-  title: {
-    fontSize: 32,
-    color: '#fff',
-    marginBottom: 40,
-    fontWeight: 'bold',
-  },
   input: {
     backgroundColor: '#333',
     color: '#fff',
     paddingHorizontal: 15,
     borderRadius: 12,
-    marginBottom: 15,
     fontSize: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -33,6 +21,9 @@ const styles = StyleSheet.create({
     elevation: 2,
     width: '90%',
     height: 50,
+    borderBottomWidth: 2,
+    borderBottomColor: 'transparent',
+    marginBottom: 25, // Aumentado para criar mais espaço entre os campos
   },
   inputPassword: {
     flex: 1,
@@ -47,26 +38,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#333',
     borderRadius: 12,
-    marginBottom: 15,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     elevation: 2,
+    borderBottomWidth: 2,
+    borderBottomColor: 'transparent',
+    marginBottom: 25, // Aumentado para mais espaçamento entre os campos de senha
+  },
+  inputError: {
+    borderBottomColor: '#FF6B6B', // Linha inferior em vermelho para erro
   },
   showPasswordButton: {
     paddingHorizontal: 10,
     justifyContent: 'center',
   },
-  inputError: {
-    borderColor: 'red',
-    borderWidth: 1,
-  },
   errorText: {
-    color: 'red',
-    fontSize: 14,
+    color: '#FF6B6B',
+    fontSize: 12,
     alignSelf: 'flex-start',
-    marginLeft: '10%',
-    marginBottom: 10,
+    marginLeft: '5%',
+    marginTop: -20, // Pequeno ajuste para posicionar erro junto ao campo
+    marginBottom: 5, // Pequeno ajuste para separar o erro do próximo campo
   },
   btn: {
     backgroundColor: '#68D391',
@@ -74,7 +67,7 @@ const styles = StyleSheet.create({
     padding: 15,
     width: '80%',
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: 20, // Espaçamento adicional acima e abaixo do botão
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -86,7 +79,7 @@ const styles = StyleSheet.create({
   },
   checkboxContainer: {
     flexDirection: 'row',
-    marginBottom: 20,
+    marginTop: 25, // Espaço maior entre o checkbox e o último campo de senha
     alignItems: 'center',
     width: '80%',
   },

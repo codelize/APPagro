@@ -3,7 +3,7 @@ import { SafeAreaView, TextInput, TouchableOpacity, Text, KeyboardAvoidingView, 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CheckBox from 'expo-checkbox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Header from '../components/Header'; // Import do Header
+import Header from '../components/Header';
 import styles from '../styles/RegistrationScreenStyles.js';
 
 export default function RegistrationScreen({ navigation }) {
@@ -51,7 +51,6 @@ export default function RegistrationScreen({ navigation }) {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
-          {/* Utilizando o Header com título "Criar Conta" e botão de voltar */}
           <Header title="Criar Conta" onBackPress={() => navigation.goBack()} />
 
           <TextInput
@@ -64,7 +63,7 @@ export default function RegistrationScreen({ navigation }) {
               setErrors({ ...errors, primeiroNome: '' });
             }}
           />
-          {errors.primeiroNome ? <Text style={styles.errorText}>{errors.primeiroNome}</Text> : null}
+          {errors.primeiroNome && <Text style={styles.errorText}>{errors.primeiroNome}</Text>}
 
           <TextInput
             placeholder="Email"
@@ -77,14 +76,15 @@ export default function RegistrationScreen({ navigation }) {
               setErrors({ ...errors, email: '' });
             }}
           />
-          {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
+          {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
 
-          <View style={styles.passwordContainer}>
+          <View style={[styles.passwordContainer, errors.senha ? styles.inputError : null]}>
             <TextInput
               placeholder="Senha"
               placeholderTextColor="#aaa"
-              style={[styles.inputPassword, errors.senha ? styles.inputError : null]}
+              style={styles.inputPassword}
               secureTextEntry={mostrarSenha}
+              textContentType="oneTimeCode" // Desativa a sugestão automática de senha
               value={senha}
               onChangeText={text => {
                 setSenha(text);
@@ -95,14 +95,15 @@ export default function RegistrationScreen({ navigation }) {
               <Ionicons name={mostrarSenha ? 'eye-outline' : 'eye-off-outline'} size={20} color="#68D391" />
             </TouchableOpacity>
           </View>
-          {errors.senha ? <Text style={styles.errorText}>{errors.senha}</Text> : null}
+          {errors.senha && <Text style={styles.errorText}>{errors.senha}</Text>}
 
-          <View style={styles.passwordContainer}>
+          <View style={[styles.passwordContainer, errors.confirmarSenha ? styles.inputError : null]}>
             <TextInput
               placeholder="Confirmar Senha"
               placeholderTextColor="#aaa"
-              style={[styles.inputPassword, errors.confirmarSenha ? styles.inputError : null]}
+              style={styles.inputPassword}
               secureTextEntry={mostrarConfirmarSenha}
+              textContentType="oneTimeCode" // Desativa a sugestão automática de senha
               value={confirmarSenha}
               onChangeText={text => {
                 setConfirmarSenha(text);
@@ -113,7 +114,7 @@ export default function RegistrationScreen({ navigation }) {
               <Ionicons name={mostrarConfirmarSenha ? 'eye-outline' : 'eye-off-outline'} size={20} color="#68D391" />
             </TouchableOpacity>
           </View>
-          {errors.confirmarSenha ? <Text style={styles.errorText}>{errors.confirmarSenha}</Text> : null}
+          {errors.confirmarSenha && <Text style={styles.errorText}>{errors.confirmarSenha}</Text>}
 
           <View style={styles.checkboxContainer}>
             <CheckBox

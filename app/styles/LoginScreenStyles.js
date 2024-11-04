@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#333',
     paddingHorizontal: 15,
-    marginBottom: 15,
     borderRadius: 12,
     fontSize: 16,
     color: '#fff',
@@ -21,6 +20,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     elevation: 2,
+    marginBottom: 20,
   },
   passwordContainer: {
     flexDirection: 'row',
@@ -28,11 +28,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#333',
     borderRadius: 12,
-    marginBottom: 15,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     elevation: 2,
+    marginBottom: 20,
   },
   inputPassword: {
     flex: 1,
@@ -46,14 +46,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   inputError: {
-    borderColor: 'red',
-    borderWidth: 1,
+    borderBottomColor: '#FF6B6B',
+    borderBottomWidth: 2,
   },
   errorText: {
-    color: 'red',
-    fontSize: 14,
+    color: '#FF6B6B',
+    fontSize: 12,
     alignSelf: 'flex-start',
     marginLeft: '5%',
+    marginTop: -15,
     marginBottom: 10,
   },
   btn: {
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     padding: 15,
     width: '80%',
     alignItems: 'center',
-    marginBottom: 20,
+    marginVertical: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -82,8 +83,7 @@ const styles = StyleSheet.create({
   signupContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    position: 'absolute',
-    bottom: 50,
+    marginTop: 30,
   },
   signupText: {
     color: '#fff',
