@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
-import { NavigationContainer, useNavigation, useNavigationState } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -17,9 +17,7 @@ import AnimalHistoryScreen from './app/screens/AnimalHistoryScreen';
 const Stack = createNativeStackNavigator();
 
 // Barra de navegação customizada para simular as abas
-function CustomTabBar({ navigation }) {
-  const [currentScreen, setCurrentScreen] = useState('Home'); // Definindo o valor inicial
-
+function CustomTabBar({ currentScreen, setCurrentScreen, navigation }) {
   const navigateToHome = () => {
     setCurrentScreen('Home');
     navigation.navigate('Home'); // Navega para a tela "Home"
@@ -52,8 +50,8 @@ function CustomTabBar({ navigation }) {
 }
 
 // Função para encapsular Home e VetMeet em um Stack Navigator
-function HomeStack() {
-  const navigation = useNavigation();
+function HomeStack({ navigation }) {
+  const [currentScreen, setCurrentScreen] = useState('Home'); // Estado para controlar a tela ativa
 
   return (
     <View style={{ flex: 1 }}>
@@ -65,11 +63,15 @@ function HomeStack() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="VetMeet" component={VetMeet} />
+        <Stack.Screen name="Home">
+          {(props) => <Home {...props} setCurrentScreen={setCurrentScreen} />}
+        </Stack.Screen>
+        <Stack.Screen name="VetMeet">
+          {(props) => <VetMeet {...props} setCurrentScreen={setCurrentScreen} />}
+        </Stack.Screen>
       </Stack.Navigator>
       {/* Barra de navegação personalizada fixa na parte inferior */}
-      <CustomTabBar navigation={navigation} />
+      <CustomTabBar currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} navigation={navigation} />
     </View>
   );
 }

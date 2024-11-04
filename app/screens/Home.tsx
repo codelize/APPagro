@@ -18,14 +18,14 @@ import {
 import { BlurView } from 'expo-blur';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import { FIREBASE_AUTH } from './../Firebase';
 import styles from '../styles/HomeStyles';
 
 const { width } = Dimensions.get('window');
 
-export default function Home() {
+export default function Home({ setCurrentScreen }) {
   const navigation = useNavigation();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [location, setLocation] = useState('Rio Verde, Goiás');
@@ -36,6 +36,13 @@ export default function Home() {
   const [username, setUsername] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const spinValue = new Animated.Value(0);
+
+  // Ativar ícone de "Home" ao focar na tela
+  useFocusEffect(
+    React.useCallback(() => {
+      setCurrentScreen('Home'); // Define a aba como ativa ao focar na Home
+    }, [setCurrentScreen])
+  );
 
   const getUsername = () => {
     const user = FIREBASE_AUTH.currentUser;
@@ -110,6 +117,7 @@ export default function Home() {
   };
 
   const navigateToVetMeet = () => {
+    setCurrentScreen('VetMeet'); // Atualiza a aba ativa
     navigation.navigate('VetMeet');
   };
 
@@ -217,10 +225,10 @@ export default function Home() {
           </TouchableOpacity>
 
           <View style={styles.avatarContainer}>
-  <TouchableOpacity onPress={() => openModal(require('../../assets/image.png'))}>
-    <Image source={require('../../assets/image.png')} style={styles.avatar} />
-  </TouchableOpacity>
-</View>
+            <TouchableOpacity onPress={() => openModal(require('../../assets/image.png'))}>
+              <Image source={require('../../assets/image.png')} style={styles.avatar} />
+            </TouchableOpacity>
+          </View>
 
           <TouchableOpacity style={[styles.statCard, styles.rightCard]} onPress={navigateToAppointment}>
             <View style={styles.statContainer}>
