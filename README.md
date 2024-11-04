@@ -21,10 +21,10 @@ Siga os passos abaixo para configurar e executar o projeto em seu ambiente local
 4. *Execute o projeto no Android*
 
 
-       > Nota: <br>
-       Para se logar, utilize as seguintes credenciais que estão registradas no Firebase. <br>
-       usuário: *adminuser@gmail.com* <br>
-       senha: *SenhaAdmin12@*
+         > Nota: <br>
+         Para se logar, utilize as seguintes credenciais que estão registradas no Firebase. <br>
+         usuário: *adminuser@gmail.com* <br>
+         senha: *SenhaAdmin12@*
 
 
                                         💡 
