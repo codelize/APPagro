@@ -83,7 +83,7 @@ export default function Home() {
     setIsLoggingOut(false);
     navigation.reset({
       index: 0,
-      routes: [{ name: 'Login' }],
+      routes: [{ name: 'HomeScreen' }],
     });
   };
 

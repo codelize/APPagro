@@ -43,8 +43,8 @@ export default StyleSheet.create({
     height: '130%',
     position: 'absolute',
     top: 200,
-    opacity: 2,
-    zIndex: 0,
+    opacity: 1,
+    zIndex: 1,
   },
   ellipseImg: {
     width: '150%',

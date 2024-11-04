@@ -8,17 +8,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#0C331C',
     paddingHorizontal: 20,
   },
-  backIcon: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
-  },
-  title: {
-    fontSize: 32,
-    color: '#fff',
-    marginBottom: 40,
-    fontWeight: 'bold',
-  },
   input: {
     width: '90%',
     height: 50,

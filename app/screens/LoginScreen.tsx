@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { SafeAreaView, TextInput, TouchableOpacity, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, View, Alert } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../Firebase';
 import { useNavigation } from '@react-navigation/native';
+import Header from '../components/Header';
 import styles from '../styles/LoginScreenStyles.js';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -31,10 +32,7 @@ export default function LoginScreen() {
 
     try {
       await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'HomeTabs' }],
-      });
+      navigation.navigate('HomeTabs'); // Usar navigate ao invés de reset
     } catch (error) {
       console.error('Erro ao fazer login:', error);
       Alert.alert('Erro de login', 'Usuário ou senha incorretos. Tente novamente.');
@@ -45,11 +43,8 @@ export default function LoginScreen() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
-          <TouchableOpacity style={styles.backIcon} onPress={() => navigation.navigate('HomeScreen')}>
-            <Ionicons name="arrow-back" size={28} color="#fff" />
-          </TouchableOpacity>
-
-          <Text style={styles.title}>Login</Text>
+          {/* Usando o componente Header com o botão de voltar */}
+          <Header title="Login" onBackPress={() => navigation.goBack()} />
 
           <TextInput
             style={[styles.input, errors.email ? styles.inputError : null]}

@@ -3,7 +3,8 @@ import { SafeAreaView, TextInput, TouchableOpacity, Text, KeyboardAvoidingView, 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CheckBox from 'expo-checkbox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import styles from '../styles/RegistrationScreenStyles.js'; // Import dos estilos separados
+import Header from '../components/Header'; // Import do Header
+import styles from '../styles/RegistrationScreenStyles.js';
 
 export default function RegistrationScreen({ navigation }) {
   const [primeiroNome, setPrimeiroNome] = useState('');
@@ -50,11 +51,8 @@ export default function RegistrationScreen({ navigation }) {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
-          <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={28} color="#fff" />
-          </TouchableOpacity>
-
-          <Text style={styles.title}>Criar Conta</Text>
+          {/* Utilizando o Header com título "Criar Conta" e botão de voltar */}
+          <Header title="Criar Conta" onBackPress={() => navigation.goBack()} />
 
           <TextInput
             placeholder="Primeiro Nome"

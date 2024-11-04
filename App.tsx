@@ -54,10 +54,6 @@ function CustomTabBar({ navigation }) {
 // Função para encapsular Home e VetMeet em um Stack Navigator
 function HomeStack() {
   const navigation = useNavigation();
-  const currentScreen = useNavigationState(state => {
-    const route = state.routes[state.index];
-    return route.name;
-  });
 
   return (
     <View style={{ flex: 1 }}>
@@ -84,21 +80,45 @@ export default function App() {
       <Stack.Navigator
         initialRouteName="Loading"
         screenOptions={{
-          gestureEnabled: true,
-          gestureDirection: 'horizontal',
           headerShown: false,
         }}
       >
         <Stack.Screen name="Loading" component={LoadingScreen} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Cadastro" component={CadastroScreen} />
+        
+        {/* Telas com gesto de arrastar habilitado */}
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{ gestureEnabled: true, gestureDirection: 'horizontal' }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ gestureEnabled: true, gestureDirection: 'horizontal' }}
+        />
+        <Stack.Screen
+          name="Cadastro"
+          component={CadastroScreen}
+          options={{ gestureEnabled: true, gestureDirection: 'horizontal' }}
+        />
+        <Stack.Screen
+          name="Appointment"
+          component={AppointmentScreen}
+          options={{ gestureEnabled: true, gestureDirection: 'horizontal' }}
+        />
+        <Stack.Screen
+          name="LifeScreen"
+          component={LifeScreen}
+          options={{ gestureEnabled: true, gestureDirection: 'horizontal' }}
+        />
+        <Stack.Screen
+          name="AnimalHistory"
+          component={AnimalHistoryScreen}
+          options={{ gestureEnabled: true, gestureDirection: 'horizontal' }}
+        />
+
         {/* Encapsulamento de Home e VetMeet em um Stack para compatibilidade do gesto */}
         <Stack.Screen name="HomeTabs" component={HomeStack} />
-        {/* Outras telas */}
-        <Stack.Screen name="Appointment" component={AppointmentScreen} />
-        <Stack.Screen name="LifeScreen" component={LifeScreen} />
-        <Stack.Screen name="AnimalHistory" component={AnimalHistoryScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
