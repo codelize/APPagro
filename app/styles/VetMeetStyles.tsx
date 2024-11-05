@@ -135,38 +135,31 @@ export default StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   modalContainer: {
     width: '80%',
-    backgroundColor: '#333',
     padding: 20,
+    backgroundColor: '#1c1c1e', // Fundo escuro do modal
     borderRadius: 12,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 10,
   },
   modalText: {
-    color: '#fff',
     fontSize: 16,
-    marginBottom: 20,
+    color: '#FFFFFF', // Texto branco para contraste
     textAlign: 'center',
+    marginBottom: 15,
   },
   modalButton: {
-    backgroundColor: '#8FD3A7',
-    paddingVertical: 10,
+    backgroundColor: '#8FD3A7', // Verde claro para o botão
+    paddingVertical: 8,
     paddingHorizontal: 20,
-    borderRadius: 8,
+    borderRadius: 5,
   },
   modalButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+    color: '#1c1c1e', // Texto escuro para contraste no botão
+    fontWeight: '600',
   },
 });
   
