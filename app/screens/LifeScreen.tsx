@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, SafeAreaView, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, SafeAreaView, TouchableOpacity, Image, ActivityIndicator, RefreshControl } from 'react-native';
 import { FIRESTORE_DB, FIREBASE_STORAGE } from '../Firebase';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { collection, getDocs, query, limit } from 'firebase/firestore';
@@ -25,11 +25,11 @@ const formatCurrency = (value) => {
 const LifeScreen = ({ navigation }) => {
     const [animalStock, setAnimalStock] = useState([]);
     const [expandedId, setExpandedId] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState(null);
 
     const fetchAnimals = async () => {
-        setLoading(true);
+        setRefreshing(true);
         setError(null);
 
         try {
@@ -56,7 +56,7 @@ const LifeScreen = ({ navigation }) => {
             console.error("Erro ao buscar dados do Firestore ou Storage:", error);
             setError("Não foi possível carregar os dados. Verifique sua conexão e tente novamente.");
         } finally {
-            setLoading(false);
+            setRefreshing(false);
         }
     };
 
@@ -140,11 +140,7 @@ const LifeScreen = ({ navigation }) => {
                 onBackPress={() => navigation.goBack()}
             />
 
-            {loading ? (
-                <View style={styles.centered}>
-                    <ActivityIndicator size="large" color="#fff" />
-                </View>
-            ) : error ? (
+            {error ? (
                 <View style={styles.errorContainer}>
                     <Text style={styles.errorText}>{error}</Text>
                     <TouchableOpacity onPress={fetchAnimals} style={styles.reloadButton}>
@@ -157,6 +153,13 @@ const LifeScreen = ({ navigation }) => {
                     renderItem={renderAnimalItem}
                     keyExtractor={(item) => String(item.id)}
                     contentContainerStyle={styles.listContainer}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={fetchAnimals}
+                            tintColor="#fff"
+                        />
+                    }
                 />
             )}
         </SafeAreaView>

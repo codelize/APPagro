@@ -218,7 +218,7 @@ export default function Home({ setCurrentScreen }) {
         <View style={styles.statsContainer}>
           <TouchableOpacity style={[styles.statCard, styles.leftCard]} onPress={navigateToVidas}>
             <View style={styles.statContainer}>
-              <Text style={styles.statNumber}>3.127</Text>
+              <Text style={styles.statNumber}>10</Text>
               <Text style={styles.statLabel}>Animais</Text>
             </View>
           </TouchableOpacity>
@@ -231,7 +231,7 @@ export default function Home({ setCurrentScreen }) {
 
           <TouchableOpacity style={[styles.statCard, styles.rightCard]} onPress={navigateToAppointment}>
             <View style={styles.statContainer}>
-              <Text style={styles.statNumber}>81</Text>
+              <Text style={styles.statNumber}>10</Text>
               <Text style={styles.statLabel}>Consultas</Text>
             </View>
           </TouchableOpacity>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Animated, TextInput, SafeAreaView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, Animated, TextInput, SafeAreaView, TouchableOpacity, ActivityIndicator, RefreshControl } from 'react-native';
 import { FIRESTORE_DB } from '../Firebase';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { collection, getDocs, query } from 'firebase/firestore';
@@ -19,12 +19,13 @@ const AppointmentScreen = () => {
   const [bovineData, setBovineData] = useState<BovineData[]>([]);
   const [filteredData, setFilteredData] = useState<BovineData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false); 
   const [error, setError] = useState<string | null>(null);
   const scrollY = React.useRef(new Animated.Value(0)).current;
   const navigation = useNavigation<NavigationProp<any>>();
 
   const fetchAppointments = async () => {
-    setLoading(true);
+    if (!refreshing) setLoading(true); 
     setError(null);
 
     try {
@@ -42,13 +43,21 @@ const AppointmentScreen = () => {
       console.error("Erro ao buscar dados do Firestore:", error);
       setError("Não foi possível carregar os dados. Verifique sua conexão e tente novamente.");
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+        setRefreshing(false);
+      }, 1500);
     }
   };
 
   useEffect(() => {
     fetchAppointments();
   }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchAppointments();
+  };
 
   const handleSearch = (text: string) => {
     setSearchText(text);
@@ -103,7 +112,7 @@ const AppointmentScreen = () => {
         onChangeText={handleSearch}
       />
 
-      {loading ? (
+      {loading && bovineData.length === 0 ? ( 
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <ActivityIndicator size="large" color="#fff" />
         </View>
@@ -120,6 +129,13 @@ const AppointmentScreen = () => {
           renderItem={renderExpenseItem}
           keyExtractor={(item) => item.id}
           contentContainerStyle={{ flexGrow: 1 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor="#fff"
+            />
+          }
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y: scrollY } } }],
             { useNativeDriver: true }

@@ -4,7 +4,7 @@ import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { FIRESTORE_DB } from '../Firebase';
 import Header from '../components/Header';
-import styles from '../styles/AnimalHistoryScreenStyles';
+import styles from '../styles/AnimalHistoryScreen.styles';
 
 type AnimalHistoryRouteParams = {
   AnimalHistory: {
