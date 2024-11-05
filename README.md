@@ -68,8 +68,8 @@ ajustar os dados.
   <img src="https://github.com/user-attachments/assets/b9cd203b-4ab1-4b4f-941f-5eb05839d7a7" width="250"/>
   <img src="https://github.com/user-attachments/assets/d02bd559-d001-453d-8120-1cce472b4749" width="250"/>
   <img src="https://github.com/user-attachments/assets/f404ead2-9038-40c6-9174-9168db70fb89" width="250"/>
-  <img src="https://github.com/user-attachments/assets/6c355acf-03d3-4d09-abd9-51e39ab0418e" width="250"/>
-  <img src="https://github.com/user-attachments/assets/46ae5f8a-fa47-462f-9e9d-87045c557e17" width="250"/>
+  <img src="https://github.com/user-attachments/assets/a1391d99-f484-4d9b-b146-5ae0ed2cb913" width="250"/>
+  <img src="https://github.com/user-attachments/assets/263fe619-2ef7-4c6d-a3b7-a51b6b2473c3" width="250"/>
   <img src="https://github.com/user-attachments/assets/7ecf7790-ca5e-4f03-83e7-242c57ca0391" width="250"/>
   <img src="https://github.com/user-attachments/assets/63bffc02-4ce1-4d4f-a5ed-9ec578fb891a" width="250"/>
   <img src="https://github.com/user-attachments/assets/c6e6c1ec-de74-4e1b-8f23-491c4ccf6de5" width="250"/>
@@ -81,6 +81,7 @@ ajustar os dados.
   <img src="https://github.com/user-attachments/assets/a4d18b78-2352-443b-a693-7cdbf866f64e" width="250"/>
   <img src="https://github.com/user-attachments/assets/d708112a-4ff6-4550-ae3d-0f19534603c5" width="250"/>
 </p>
+
 
 
 
