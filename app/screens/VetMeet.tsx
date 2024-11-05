@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { SafeAreaView, View, Text, Image, TouchableOpacity, Modal, ActivityIndicator, Animated, Easing } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Swiper from 'react-native-deck-swiper';
 import * as Location from 'expo-location';
@@ -19,6 +19,9 @@ export default function VetMeet() {
   const [userLocation, setUserLocation] = useState(null);
   const [swipedCards, setSwipedCards] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const scaleValue = useState(new Animated.Value(0))[0];
 
   const fetchVeterinarios = async () => {
     setLoading(true);
@@ -51,7 +54,6 @@ export default function VetMeet() {
       setVeterinarios(veterinariosData);
     } catch (error) {
       console.error("Erro ao buscar dados do Firestore:", error);
-      Alert.alert("Erro", "Não foi possível carregar os dados dos veterinários.");
     } finally {
       setLoading(false);
     }
@@ -77,7 +79,8 @@ export default function VetMeet() {
   const getUserLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
-      Alert.alert('Permissão negada', 'A permissão para acessar a localização foi negada.');
+      setModalMessage('A permissão para acessar a localização foi negada.');
+      showModal();
       return;
     }
     let location = await Location.getCurrentPositionAsync({});
@@ -124,6 +127,25 @@ export default function VetMeet() {
   const handleSwipedAll = () => {
     setShowNoMoreVeterinarios(true);
     setSwipedCards([]);
+  };
+
+  const showModal = () => {
+    setModalVisible(true);
+    Animated.spring(scaleValue, {
+      toValue: 1,
+      friction: 5,
+      tension: 100,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const closeModal = () => {
+    Animated.timing(scaleValue, {
+      toValue: 0,
+      duration: 200,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start(() => setModalVisible(false));
   };
 
   return (
@@ -180,14 +202,20 @@ export default function VetMeet() {
                     )}
                     <TouchableOpacity
                       style={styles.contactButton}
-                      onPress={() => Alert.alert("Aviso", "Contato não está disponível. Tente novamente mais tarde.")}
+                      onPress={() => {
+                        setModalMessage("Contato não está disponível. Tente novamente mais tarde.");
+                        showModal();
+                      }}
                     >
                       <Ionicons name="call-outline" size={20} color="#fff" />
                       <Text style={styles.buttonText}>Contato</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.scheduleButton}
-                      onPress={() => Alert.alert("Aviso", "Opção de agendamento não está disponível no momento. Tente novamente mais tarde.")}
+                      onPress={() => {
+                        setModalMessage("Opção de agendamento não está disponível no momento. Tente novamente mais tarde.");
+                        showModal();
+                      }}
                     >
                       <Ionicons name="calendar-outline" size={20} color="#fff" />
                       <Text style={styles.buttonText}>Agendar</Text>
@@ -207,6 +235,19 @@ export default function VetMeet() {
           />
         </View>
       )}
+
+      {/* Modal personalizado */}
+      <Modal transparent={true} visible={modalVisible} onRequestClose={closeModal}>
+        <View style={styles.modalOverlay}>
+          <Animated.View style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>
+            <Ionicons name="alert-circle-outline" size={48} color="#FFD700" style={{ marginBottom: 15 }} />
+            <Text style={styles.modalText}>{modalMessage}</Text>
+            <TouchableOpacity style={styles.modalButton} onPress={closeModal}>
+              <Text style={styles.modalButtonText}>Fechar</Text>
+            </TouchableOpacity>
+          </Animated.View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
