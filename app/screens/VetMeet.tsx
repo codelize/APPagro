@@ -178,11 +178,17 @@ export default function VetMeet() {
                         <Ionicons name="arrow-undo-outline" size={20} color="#fff" />
                       </TouchableOpacity>
                     )}
-                    <TouchableOpacity style={styles.contactButton}>
+                    <TouchableOpacity
+                      style={styles.contactButton}
+                      onPress={() => Alert.alert("Aviso", "Contato não está disponível. Tente novamente mais tarde.")}
+                    >
                       <Ionicons name="call-outline" size={20} color="#fff" />
                       <Text style={styles.buttonText}>Contato</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.scheduleButton}>
+                    <TouchableOpacity
+                      style={styles.scheduleButton}
+                      onPress={() => Alert.alert("Aviso", "Opção de agendamento não está disponível no momento. Tente novamente mais tarde.")}
+                    >
                       <Ionicons name="calendar-outline" size={20} color="#fff" />
                       <Text style={styles.buttonText}>Agendar</Text>
                     </TouchableOpacity>
