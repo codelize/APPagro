@@ -129,24 +129,24 @@ export default function VetMeet() {
     setSwipedCards([]);
   };
 
-  const showModal = () => {
-    setModalVisible(true);
-    Animated.timing(scaleValue, {
-      toValue: 1,
-      duration: 300,
-      easing: Easing.out(Easing.ease),
-      useNativeDriver: true,
-    }).start();
-  };
-  
-  const closeModal = () => {
-    Animated.timing(scaleValue, {
-      toValue: 0,
-      duration: 400,
-      easing: Easing.inOut(Easing.ease),
-      useNativeDriver: true,
-    }).start(() => setModalVisible(false));
-  };
+const showModal = () => {
+  setModalVisible(true);
+  Animated.timing(scaleValue, {
+    toValue: 1,
+    duration: 300,
+    easing: Easing.ease,
+    useNativeDriver: true,
+  }).start();
+};
+
+const closeModal = () => {
+  Animated.timing(scaleValue, {
+    toValue: 0,
+    duration: 200,
+    easing: Easing.ease,
+    useNativeDriver: true,
+  }).start(() => setModalVisible(false));
+};
 
   return (
     <SafeAreaView style={styles.container}>
@@ -203,7 +203,7 @@ export default function VetMeet() {
                     <TouchableOpacity
                       style={styles.contactButton}
                       onPress={() => {
-                        setModalMessage("O contato não está disponível.");
+                        setModalMessage("Contato indisponível.");
                         showModal();
                       }}
                     >
@@ -213,7 +213,7 @@ export default function VetMeet() {
                     <TouchableOpacity
                       style={styles.scheduleButton}
                       onPress={() => {
-                        setModalMessage("O agendamento não está disponível no momento. \nTente novamente mais tarde.");
+                        setModalMessage("Agendamento indisponível no momento. \nTente novamente mais tarde.");
                         showModal();
                       }}
                     >
@@ -238,16 +238,16 @@ export default function VetMeet() {
 
       {/* Modal personalizado */}
       <Modal transparent={true} visible={modalVisible} onRequestClose={closeModal}>
-  <View style={styles.modalOverlay}>
-    <Animated.View style={[styles.modalContainer, { opacity: scaleValue }]}>
-      <Ionicons name="information-circle-outline" size={32} color="#8FD3A7" style={{ marginBottom: 8 }} />
-      <Text style={[styles.modalText, { fontSize: 16, color: '#FFFFFF' }]}>{modalMessage}</Text>
-      <TouchableOpacity style={styles.modalButton} onPress={closeModal}>
-        <Text style={styles.modalButtonText}>Ok</Text>
-      </TouchableOpacity>
-    </Animated.View>
-  </View>
-</Modal>
+        <View style={styles.modalOverlay}>
+          <Animated.View style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>
+            <Ionicons name="alert-circle-outline" size={48} color="#FFD700" style={{ marginBottom: 15 }} />
+            <Text style={styles.modalText}>{modalMessage}</Text>
+            <TouchableOpacity style={styles.modalButton} onPress={closeModal}>
+              <Text style={styles.modalButtonText}>Ok</Text>
+            </TouchableOpacity>
+          </Animated.View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }

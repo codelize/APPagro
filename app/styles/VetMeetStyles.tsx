@@ -137,28 +137,30 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'transparent',  // Fundo completamente transparente
   },
+  
   modalContainer: {
     width: '80%',
     padding: 20,
-    backgroundColor: '#1c1c1e', // Fundo escuro do modal
+    backgroundColor: '#1c1c1e', // Fundo escuro apenas para o conteúdo do modal
     borderRadius: 12,
     alignItems: 'center',
   },
   modalText: {
     fontSize: 16,
-    color: '#FFFFFF', // Texto branco para contraste
+    color: '#FFFFFF',
     textAlign: 'center',
     marginBottom: 15,
   },
   modalButton: {
-    backgroundColor: '#8FD3A7', // Verde claro para o botão
+    backgroundColor: '#8FD3A7',
     paddingVertical: 8,
     paddingHorizontal: 20,
     borderRadius: 5,
   },
   modalButtonText: {
-    color: '#1c1c1e', // Texto escuro para contraste no botão
+    color: '#1c1c1e',
     fontWeight: '600',
   },
 });
