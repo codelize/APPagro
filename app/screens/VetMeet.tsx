@@ -103,7 +103,6 @@ export default function VetMeet() {
   };
 
   const handleImagePress = () => {
-    // Função vazia apenas para capturar o toque
   };
 
   const recarregarVeterinarios = () => {
@@ -236,7 +235,6 @@ const closeModal = () => {
         </View>
       )}
 
-      {/* Modal personalizado */}
       <Modal transparent={true} visible={modalVisible} onRequestClose={closeModal}>
         <View style={styles.modalOverlay}>
           <Animated.View style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>

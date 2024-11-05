@@ -1,4 +1,3 @@
-// BackButton.tsx
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -13,7 +12,7 @@ const BackButton = ({ onPress }) => {
 
 const styles = {
   buttonContainer: {
-    padding: 10, // Ajusta a área de toque
+    padding: 10, 
     zIndex: 10,
     
   },

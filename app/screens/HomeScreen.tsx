@@ -1,6 +1,6 @@
 import React from 'react';
-import { SafeAreaView, Text, TouchableOpacity, Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import styles from '../styles/HomeScreenStyles'; // Import dos estilos separados
+import { SafeAreaView, Text, TouchableOpacity, Image, KeyboardAvoidingView, Platform, View } from 'react-native';
+import styles from '../styles/HomeScreenStyles';
 
 export default function HomeScreen({ navigation }) {
   return (
@@ -8,7 +8,7 @@ export default function HomeScreen({ navigation }) {
       style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+      <View style={styles.container}>
         {/* Imagem de fundo: circle */}
         <Image
           style={styles.circleImg}
@@ -48,7 +48,7 @@ export default function HomeScreen({ navigation }) {
         >
           <Text style={styles.btnText}>Cadastrar-se</Text>
         </TouchableOpacity>
-      </ScrollView>
+      </View>
     </KeyboardAvoidingView>
   );
 }

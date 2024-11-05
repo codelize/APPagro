@@ -137,13 +137,13 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'transparent',  // Fundo completamente transparente
+    backgroundColor: 'transparent', 
   },
   
   modalContainer: {
     width: '80%',
     padding: 20,
-    backgroundColor: '#1c1c1e', // Fundo escuro apenas para o conteúdo do modal
+    backgroundColor: '#1c1c1e', 
     borderRadius: 12,
     alignItems: 'center',
   },

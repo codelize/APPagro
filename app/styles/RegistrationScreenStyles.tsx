@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderBottomWidth: 2,
     borderBottomColor: 'transparent',
-    marginBottom: 25, // Aumentado para criar mais espaço entre os campos
+    marginBottom: 25, 
   },
   inputPassword: {
     flex: 1,
@@ -44,10 +44,10 @@ const styles = StyleSheet.create({
     elevation: 2,
     borderBottomWidth: 2,
     borderBottomColor: 'transparent',
-    marginBottom: 25, // Aumentado para mais espaçamento entre os campos de senha
+    marginBottom: 25, 
   },
   inputError: {
-    borderBottomColor: '#FF6B6B', // Linha inferior em vermelho para erro
+    borderBottomColor: '#FF6B6B', 
   },
   showPasswordButton: {
     paddingHorizontal: 10,
@@ -58,8 +58,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     alignSelf: 'flex-start',
     marginLeft: '5%',
-    marginTop: -20, // Pequeno ajuste para posicionar erro junto ao campo
-    marginBottom: 5, // Pequeno ajuste para separar o erro do próximo campo
+    marginTop: -20, 
+    marginBottom: 5, 
   },
   btn: {
     backgroundColor: '#68D391',
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     padding: 15,
     width: '80%',
     alignItems: 'center',
-    marginVertical: 20, // Espaçamento adicional acima e abaixo do botão
+    marginVertical: 20, 
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   checkboxContainer: {
     flexDirection: 'row',
-    marginTop: 25, // Espaço maior entre o checkbox e o último campo de senha
+    marginTop: 25, 
     alignItems: 'center',
     width: '80%',
   },

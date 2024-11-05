@@ -1,9 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage'; // Importação do Storage
+import { getStorage } from 'firebase/storage'; 
 
-// Configuração do Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBhz_CsHuZJwVfy6BA64TZCAgB5eD-e-Ow",
   authDomain: "meuappreactnative-f8a3d.firebaseapp.com",
@@ -14,7 +13,6 @@ const firebaseConfig = {
   measurementId: "G-3N9T4KQNCB"
 };
 
-// Inicializando o Firebase
 export const FIREBASE_APP = initializeApp(firebaseConfig);
 export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
 export const FIRESTORE_DB = getFirestore(FIREBASE_APP);

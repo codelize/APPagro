@@ -4,7 +4,7 @@ import { Image, View, StyleSheet, ScrollView } from 'react-native';
 export default function LoadingScreen({ navigation }) {
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.replace('HomeScreen'); // Redireciona para a HomeScreen após o loading
+      navigation.replace('HomeScreen'); 
     }, 4000);
 
     return () => clearTimeout(timer);
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0C331C', // Fundo escuro para consistência com a aplicação
+    backgroundColor: '#0C331C', 
   },
   loadingImageContainer: {
     flex: 1,
@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
     height: '130%',
     position: 'absolute',
     top: 200,
-    opacity: 0.25, // Opacidade ajustada para suavizar o efeito de fundo
+    opacity: 0.25, 
     zIndex: 0,
-    tintColor: '#68D391', // Mantido o verde claro para o círculo
+    tintColor: '#68D391', 
   },
 });

@@ -79,7 +79,7 @@ const AnimalHistoryScreen: FC = () => {
           };
         });
         setHistoryData(history);
-        setFilteredData(history); // Inicializa o filtro com todos os dados
+        setFilteredData(history); 
       } catch (error) {
         console.error('Erro ao buscar histórico:', error);
       } finally {
@@ -90,7 +90,6 @@ const AnimalHistoryScreen: FC = () => {
     fetchHistory();
   }, [animalId]);
 
-  // Aplica o filtro de resultado
   const applyFilter = (filterOption: string | null) => {
     setFilter(filterOption);
     if (filterOption) {

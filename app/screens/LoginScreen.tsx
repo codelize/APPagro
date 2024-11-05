@@ -32,7 +32,7 @@ export default function LoginScreen() {
 
     try {
       await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
-      navigation.navigate('HomeTabs');
+      navigation.replace('HomeTabs'); 
     } catch (error) {
       console.error('Erro ao fazer login:', error);
       Alert.alert('Erro de login', 'Usuário ou senha incorretos. Tente novamente.');

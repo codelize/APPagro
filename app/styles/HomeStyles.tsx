@@ -8,7 +8,6 @@ export default StyleSheet.create({
     backgroundColor: '#0C331C',
   },
   scrollContainer: {
-    // Remover o paddingBottom excessivo
     paddingBottom: 15,
     paddingHorizontal: 16,
   },
@@ -17,7 +16,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 10, // Reduzido para minimizar o espaço
+    paddingVertical: 10, 
   },
   logo: {
     width: 110,

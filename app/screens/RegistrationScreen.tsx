@@ -84,7 +84,7 @@ export default function RegistrationScreen({ navigation }) {
               placeholderTextColor="#aaa"
               style={styles.inputPassword}
               secureTextEntry={mostrarSenha}
-              textContentType="oneTimeCode" // Desativa a sugestão automática de senha
+              textContentType="oneTimeCode" 
               value={senha}
               onChangeText={text => {
                 setSenha(text);
@@ -103,7 +103,7 @@ export default function RegistrationScreen({ navigation }) {
               placeholderTextColor="#aaa"
               style={styles.inputPassword}
               secureTextEntry={mostrarConfirmarSenha}
-              textContentType="oneTimeCode" // Desativa a sugestão automática de senha
+              textContentType="oneTimeCode" 
               value={confirmarSenha}
               onChangeText={text => {
                 setConfirmarSenha(text);

@@ -16,29 +16,26 @@ import AnimalHistoryScreen from './app/screens/AnimalHistoryScreen';
 
 const Stack = createNativeStackNavigator();
 
-// Barra de navegação customizada para simular as abas
 function CustomTabBar({ currentScreen, setCurrentScreen, navigation }) {
   const navigateToHome = () => {
     setCurrentScreen('Home');
-    navigation.navigate('Home'); // Navega para a tela "Home"
+    navigation.navigate('Home'); 
   };
 
   const navigateToVetMeet = () => {
     setCurrentScreen('VetMeet');
-    navigation.navigate('VetMeet'); // Navega para a tela "VetMeet"
+    navigation.navigate('VetMeet'); 
   };
 
   return (
     <View style={{ backgroundColor: '#1A1A1A', borderTopWidth: 1, borderTopColor: '#333', position: 'absolute', bottom: 0, left: 0, right: 0, paddingBottom: 15, paddingTop: 0 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 8 }}>
         
-        {/* Área clicável para "Página inicial" */}
         <TouchableOpacity onPress={navigateToHome} style={{ alignItems: 'center', flex: 1 }}>
           <Ionicons name="home-outline" size={25} color={currentScreen === 'Home' ? '#68D391' : '#fff'} />
           <Text style={{ color: currentScreen === 'Home' ? '#68D391' : '#fff', fontSize: 12, marginTop: 4 }}>Página inicial</Text>
         </TouchableOpacity>
 
-        {/* Área clicável para "Meet" */}
         <TouchableOpacity onPress={navigateToVetMeet} style={{ alignItems: 'center', flex: 1 }}>
           <Ionicons name="people-outline" size={25} color={currentScreen === 'VetMeet' ? '#68D391' : '#fff'} />
           <Text style={{ color: currentScreen === 'VetMeet' ? '#68D391' : '#fff', fontSize: 12, marginTop: 4 }}>Meet</Text>
@@ -49,9 +46,8 @@ function CustomTabBar({ currentScreen, setCurrentScreen, navigation }) {
   );
 }
 
-// Função para encapsular Home e VetMeet em um Stack Navigator
 function HomeStack({ navigation }) {
-  const [currentScreen, setCurrentScreen] = useState('Home'); // Estado para controlar a tela ativa
+  const [currentScreen, setCurrentScreen] = useState('Home'); 
 
   return (
     <View style={{ flex: 1 }}>
@@ -70,7 +66,6 @@ function HomeStack({ navigation }) {
           {(props) => <VetMeet {...props} setCurrentScreen={setCurrentScreen} />}
         </Stack.Screen>
       </Stack.Navigator>
-      {/* Barra de navegação personalizada fixa na parte inferior */}
       <CustomTabBar currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} navigation={navigation} />
     </View>
   );
@@ -86,12 +81,11 @@ export default function App() {
         }}
       >
         <Stack.Screen name="Loading" component={LoadingScreen} />
-        
-        {/* Telas com gesto de arrastar habilitado */}
+      
         <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
-          options={{ gestureEnabled: true, gestureDirection: 'horizontal' }}
+          options={{ gestureEnabled: false}}
         />
         <Stack.Screen
           name="Login"
@@ -119,7 +113,6 @@ export default function App() {
           options={{ gestureEnabled: true, gestureDirection: 'horizontal' }}
         />
 
-        {/* Encapsulamento de Home e VetMeet em um Stack para compatibilidade do gesto */}
         <Stack.Screen name="HomeTabs" component={HomeStack} />
       </Stack.Navigator>
     </NavigationContainer>
