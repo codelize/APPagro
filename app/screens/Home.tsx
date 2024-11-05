@@ -37,10 +37,9 @@ export default function Home({ setCurrentScreen }) {
   const [refreshing, setRefreshing] = useState(false);
   const spinValue = new Animated.Value(0);
 
-  // Ativar ícone de "Home" ao focar na tela
   useFocusEffect(
     React.useCallback(() => {
-      setCurrentScreen('Home'); // Define a aba como ativa ao focar na Home
+      setCurrentScreen('Home');
     }, [setCurrentScreen])
   );
 
@@ -117,7 +116,7 @@ export default function Home({ setCurrentScreen }) {
   };
 
   const navigateToVetMeet = () => {
-    setCurrentScreen('VetMeet'); // Atualiza a aba ativa
+    setCurrentScreen('VetMeet');
     navigation.navigate('VetMeet');
   };
 
@@ -248,20 +247,23 @@ export default function Home({ setCurrentScreen }) {
         <View style={styles.dashboardContainer}>
           <View style={styles.leftColumn}>
             <TouchableOpacity style={[styles.dashboardCard, styles.smallCard, styles.transparentCard]} onPress={navigateToVetMeet}>
+            <Text style={{ position: 'absolute', top: 10, left: 15, fontSize: 16, color: '#A8D5A8' }}>Meet</Text>
               <Ionicons name="people-outline" size={24} color="#68D391" style={styles.iconPosition} />
-              <Text style={styles.cardNumber}>21</Text>
-              <Text style={styles.cardLabel}>Meet</Text>
+              <Text style={styles.cardNumber}>3</Text>
+              <Text style={styles.cardLabel}>Próximos</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.dashboardCard, styles.smallCard, styles.transparentCard]} onPress={navigateToAppointment}>
+              <Text style={{ position: 'absolute', top: 10, left: 15, fontSize: 16, color: '#A8D5A8' }}>Consultas</Text>
               <Ionicons name="calendar-outline" size={24} color="#68D391" style={styles.iconPosition} />
-              <Text style={styles.cardNumber}>81</Text>
-              <Text style={styles.cardLabel}>Consultas</Text>
+              <Text style={styles.cardNumber}>10</Text>
+              <Text style={styles.cardLabel}>Realizadas</Text>
             </TouchableOpacity>
           </View>
 
           <TouchableOpacity style={[styles.dashboardCard, styles.largeCard, styles.transparentCard]} onPress={navigateToVidas}>
+          <Text style={{ position: 'absolute', top: 10, left: 15, fontSize: 16, color: '#A8D5A8' }}>Inventário</Text>
             <Ionicons name="heart-outline" size={24} color="#68D391" style={styles.iconPosition} />
-            <Text style={styles.cardNumber}>3.127</Text>
+            <Text style={styles.cardNumber}>10</Text>
             <Text style={styles.cardLabel}>Vidas</Text>
           </TouchableOpacity>
         </View>
