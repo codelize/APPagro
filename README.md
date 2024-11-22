@@ -87,9 +87,9 @@ ajustar os dados.
 
 
 
-         > RM E INTEGRANTES 
-         RM99487  - Alef Gabriel Alves Silva
-         RM99752  - Danilo Araujo Mendonça
-         RM98249  - Felipe Sieiro Paim dos Santos 
-         RM551509 - Leonardo Ferreira Lizier
-         RM99838  - Rodrigo Gonçalves Teixeira Filho
+               < RM E INTEGRANTES >
+         |RM99487  - Alef Gabriel Alves Silva
+         |RM99752  - Danilo Araujo Mendonça
+         |RM98249  - Felipe Sieiro Paim dos Santos 
+         |RM551509 - Leonardo Ferreira Lizier
+         |RM99838  - Rodrigo Gonçalves Teixeira Filho
