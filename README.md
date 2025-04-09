@@ -1,7 +1,7 @@
 # APPagro
 
 Aplicativo mobile desenvolvido em React Native para monitoramento de saúde de animais, com integração de IA e IoT para auxiliar o setor agropecuário no acompanhamento de bovinos.d
-d
+
 ## ⚙️ Instruções de Execução
 
 Siga os passos abaixo para configurar e executar o projeto em seu ambiente local:
